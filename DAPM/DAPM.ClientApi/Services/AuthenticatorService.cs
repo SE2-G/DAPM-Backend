@@ -6,7 +6,7 @@ namespace DAPM.ClientApi.Services
     {
         private readonly ILogger<AuthenticatorService> _logger;
 
-        AuthenticatorService(ILogger<AuthenticatorService> logger) { _logger = logger; }
+        public AuthenticatorService(ILogger<AuthenticatorService> logger) { _logger = logger; }
 
 
         public void AddUser()
