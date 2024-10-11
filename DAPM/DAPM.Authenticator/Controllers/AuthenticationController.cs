@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DAPM.Authenticator.Models;
-using DAPM.Authenticator.Models.Dto;
 using DAPM.Authenticator.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
