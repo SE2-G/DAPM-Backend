@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DAPM.Authenticator.Models;
 using DAPM.Authenticator.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +82,21 @@ namespace DAPM.Authenticator.Controllers
                 return Ok(response);
             }
         }
+
+        [Authorize(Roles = "Standard")]
+        [HttpPost("test1")]
+        public async Task<IActionResult> TestStandardRole()
+        {
+            return Ok("Endpoint accessed");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("test2")]
+        public async Task<IActionResult> TestAdminRole()
+        {
+            return Ok("Endpoint accessed");
+        }
+
 
 
         private bool UserExists(string name) {

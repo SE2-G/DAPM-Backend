@@ -1,4 +1,5 @@
 ﻿using DAPM.ClientApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using UtilLibrary;
@@ -11,12 +12,12 @@ namespace DAPM.ClientApi.Controllers
     [ApiController]
     [EnableCors("AllowAll")]
     [Route("auth")]
-    public class AuthenticatorController : ControllerBase
+    public class AuthenticatorController : BaseController
     {
         private readonly ILogger<AuthenticatorController> _logger;
         //private IAuthenticatorService _authenticationService;
 
-        public AuthenticatorController(ILogger<AuthenticatorController> logger)
+        public AuthenticatorController(ILogger<AuthenticatorController> logger, IHttpContextAccessor contextAccessor) : base(contextAccessor)
         {
             _logger = logger;
             //_authenticationService = authenticationService;
@@ -49,5 +50,27 @@ namespace DAPM.ClientApi.Controllers
         {
             return Ok();
         }
+
+
+        [Authorize(Roles = "Standard")]
+        [HttpGet("test3")]
+        public async Task<ActionResult<Guid>> TestRoleGating()
+        {
+            return Ok("Endpoint accessed");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("test4")]
+        public async Task<ActionResult<Guid>> TestRoleGating2()
+        {
+            return Ok("Endpoint accessed");
+        }
+
+        [HttpGet("test5")]
+        public async Task<ActionResult<Guid>> showorg()
+        {
+            return Ok($"you work for {Organization}");
+        }
     }
 }
+

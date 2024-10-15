@@ -1,15 +1,14 @@
 ﻿using DAPM.Authenticator.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using UtilLibrary;
 
 namespace DAPM.Authenticator.Services
 {
-    public class TokenService
+    public partial class TokenService
     {
         private UserManager<User> _usermanager;
         private IConfiguration _config;
@@ -26,8 +25,10 @@ namespace DAPM.Authenticator.Services
         public async Task<string> CreateToken(User user)
         {
             var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
+                new Claim(CustomTokenTypeConstants.UserName, user.UserName),
+                new Claim(CustomTokenTypeConstants.Id, user.Id.ToString()),
+                new Claim(CustomTokenTypeConstants.OrganisationName, user.OrganizationName),
+                new Claim(CustomTokenTypeConstants.OrganisationId, user.OrganizationId.ToString())
             };
 
             IList<string> roles = await _usermanager.GetRolesAsync(user);
