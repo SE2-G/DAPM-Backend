@@ -1,14 +1,15 @@
-﻿using DAPM.Orchestrator.Services.Models;
-using Microsoft.Extensions.DependencyInjection;
-using RabbitMQLibrary.Interfaces;
-using RabbitMQLibrary.Messages.Repository;
-using RabbitMQLibrary.Messages.ResourceRegistry;
-using RabbitMQLibrary.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+//using RabbitMQLibrary.Interfaces;
+//using RabbitMQLibrary.Messages.Repository;
+//using RabbitMQLibrary.Messages.ResourceRegistry;
+//using RabbitMQLibrary.Models;
 using System.Reflection;
 using System.Text.Json;
-using UtilLibrary;
+using Microsoft.Extensions.Logging;
+using UtilLibrary.models;
+using UtilLibrary.Interfaces;
 
-namespace DAPM.Orchestrator.Services
+namespace UtilLibrary.Services
 {
     public class IdentityService : IIdentityService
     {
@@ -34,11 +35,11 @@ namespace DAPM.Orchestrator.Services
             Identity identity = ReadCurrentIdentity();
 
             identity.Id = Guid.NewGuid();
-            
+
             string jsonString = JsonSerializer.Serialize(identity);
             File.WriteAllText(_identityConfigurationPath, jsonString);
 
-            PostIdentityToRegistry(identity);
+            //PostIdentityToRegistry(identity);
 
             return identity;
         }
@@ -47,13 +48,13 @@ namespace DAPM.Orchestrator.Services
         {
             Identity identity = ReadCurrentIdentity();
 
-            if(identity.Id == null || !identity.Id.HasValue)
+            if (identity.Id == null || !identity.Id.HasValue)
             {
                 return GenerateNewIdentity();
             }
             else
             {
-                PostIdentityToRegistry(identity);
+                //PostIdentityToRegistry(identity);
                 return identity;
             }
         }
@@ -62,21 +63,25 @@ namespace DAPM.Orchestrator.Services
         private Identity ReadCurrentIdentity()
         {
             var resourceNames = typeof(CustomTokenTypeConstants).Assembly.GetManifestResourceNames();//to access the assembly of utillibarary
-            using (Stream stream = typeof(CustomTokenTypeConstants).Assembly.GetManifestResourceStream("UtilLibrary.Configuration.IdentityConfiguration.json")) { 
-                if(stream == null)
+            using (Stream stream = typeof(CustomTokenTypeConstants).Assembly.GetManifestResourceStream("UtilLibrary.Configuration.IdentityConfiguration.json"))
+            {
+                if (stream == null)
                 {
                     throw new FileNotFoundException("Identity Resource not found");
-                }else {
+                }
+                else
+                {
 
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         string jsonString = reader.ReadToEnd();
                         return JsonSerializer.Deserialize<Identity>(jsonString)!;
                     }
-                }    
-            }    
+                }
+            }
         }
 
+        /*
         private void PostIdentityToRegistry(Identity identity)
         {
             var postPeerProducer = _serviceScope.ServiceProvider.GetRequiredService<IQueueProducer<PostPeerMessage>>();
@@ -94,5 +99,6 @@ namespace DAPM.Orchestrator.Services
 
             postPeerProducer.PublishMessage(postPeerMessage);
         }
+        */
     }
 }

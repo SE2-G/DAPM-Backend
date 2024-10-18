@@ -4,9 +4,13 @@ using DAPM.Authenticator.Data;
 using DAPM.Authenticator.Models;
 using DAPM.Authenticator.Services;
 using DAPM.Authenticator.Util;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 
 namespace DAPM.Authenticator
 {
@@ -15,9 +19,10 @@ namespace DAPM.Authenticator
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            IConfiguration configuration = builder.Configuration;
 
             // Add services to the container.
-            var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionstring = configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<DataContext>(options =>
                 options.UseMySql(connectionstring, ServerVersion.AutoDetect(connectionstring)));
 
@@ -29,6 +34,20 @@ namespace DAPM.Authenticator
             .AddRoles<Role>()
             .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<DataContext>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    var key = configuration.GetSection("JWTTokenKey").Value;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                            .UTF8.GetBytes(configuration.GetSection("JWTTokenKey").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             builder.Services.AddScoped<TokenService>();
 
@@ -55,7 +74,9 @@ namespace DAPM.Authenticator
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
@@ -74,6 +95,17 @@ namespace DAPM.Authenticator
                 {
                     await rolemanager.CreateAsync(new Role { Name = role });
                 }
+
+                //Admin user
+
+                User user = new User
+                {
+                    FullName = "Admin Adminson",
+                    UserName = "Admin"
+                };
+
+                var registerUserResult = await usermanager.CreateAsync(user, "verysafepassworD123123");
+                var registerRoleResult = await usermanager.AddToRolesAsync(user, new List<string>() { "Standard", "Admin", "Privileged" });
 
             }
             catch (Exception ex)
