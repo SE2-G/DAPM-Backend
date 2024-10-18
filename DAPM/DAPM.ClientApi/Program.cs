@@ -15,7 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using DAPM.Orchestrator.Services;
+using UtilLibrary.Services;
+using UtilLibrary.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

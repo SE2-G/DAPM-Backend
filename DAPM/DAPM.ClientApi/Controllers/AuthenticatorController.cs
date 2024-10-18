@@ -1,6 +1,4 @@
 ﻿using DAPM.ClientApi.Services.Interfaces;
-using DAPM.Orchestrator.Services;
-using DAPM.Orchestrator.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +6,14 @@ using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 using System.Text;
 using UtilLibrary;
+using UtilLibrary.Interfaces;
+using UtilLibrary.models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DAPM.ClientApi.Controllers
 {
-    
+
     [ApiController]
     [EnableCors("AllowAll")]
     [Route("auth")]
