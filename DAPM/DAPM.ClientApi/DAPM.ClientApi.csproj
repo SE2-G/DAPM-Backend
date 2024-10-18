@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\UtilLibrary\UtilLibrary.csproj" />
+    <ProjectReference Include="..\DAPM.Orchestrator\DAPM.Orchestrator.csproj" />
     <ProjectReference Include="..\DAPM.ServiceDefaults\DAPM.ServiceDefaults.csproj" />
     <ProjectReference Include="..\RabbitMQLibrary\RabbitMQLibrary.csproj" />
   </ItemGroup>

@@ -11,3 +11,4 @@ C:\Users\suhai\source\repos\DAPM-Backend-G\UtilLibrary\obj\Debug\net8.0\refint\U
 C:\Users\suhai\source\repos\DAPM-Backend-G\UtilLibrary\obj\Debug\net8.0\UtilLibrary.pdb
 C:\Users\suhai\source\repos\DAPM-Backend-G\UtilLibrary\obj\Debug\net8.0\ref\UtilLibrary.dll
 C:\Users\suhai\source\repos\DAPM-Backend-G\UtilLibrary\obj\Debug\net8.0\UtilLibrary.csproj.AssemblyReference.cache
+C:\Users\suhai\source\repos\DAPM-Backend-G\UtilLibrary\bin\Debug\net8.0\Configuration\IdentityConfiguration.json
