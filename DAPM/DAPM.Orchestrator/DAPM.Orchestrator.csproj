@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\UtilLibrary\UtilLibrary.csproj" />
     <ProjectReference Include="..\DAPM.ServiceDefaults\DAPM.ServiceDefaults.csproj" />
     <ProjectReference Include="..\RabbitMQLibrary\RabbitMQLibrary.csproj" />
+    <ProjectReference Include="..\UtilLibrary\UtilLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
