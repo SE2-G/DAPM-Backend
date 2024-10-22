@@ -234,6 +234,9 @@ services:
       MARIADB_USER: authuser
       MARIADB_PASSWORD: coolcats2
       MARIADB_DATABASE: authdb
+    volumes:
+      #- "./data/mariadb:/var/lib/mysql:Z"
+      - authenticator-data:/var/lib/mysql:Z
     ports: 
       - "3309:3306"
     networks:
@@ -256,6 +259,8 @@ networks:
 volumes:
   operator-data:
     name: operator-data
+  authenticator-data:
+    name: authenticator-data
    
 
 
