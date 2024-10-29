@@ -59,6 +59,8 @@ namespace RabbitMQLibrary.Models
     }
     public class Pipeline
     {
+        public bool IsTemplate {  get; set; }
+        public IEnumerable<string> Roles { get; set; }
         public IEnumerable<Node> Nodes { get; set; }
         public IEnumerable<Edge> Edges { get; set; }
     }
