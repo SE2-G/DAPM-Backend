@@ -60,9 +60,19 @@ namespace RabbitMQLibrary.Models
     public class Pipeline
     {
         public bool IsTemplate {  get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        private IEnumerable<string> _roles = new List<string>();
+        public IEnumerable<string> Roles
+        {
+            get => _roles ??= new List<string>();
+            set => _roles = value ?? new List<string>();
+        }
         public IEnumerable<Node> Nodes { get; set; }
         public IEnumerable<Edge> Edges { get; set; }
+
+        public Pipeline()
+        {
+            _roles = new List<string>();
+        }
     }
 
     public class PipelineDTO
