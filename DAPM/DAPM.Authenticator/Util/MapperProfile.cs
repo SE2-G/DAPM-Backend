@@ -19,6 +19,10 @@ namespace DAPM.Authenticator.Util
                 .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(src => src.OrganizationName))
                 .ForMember(dest => dest.OrganizationId, opt => opt.MapFrom(src => src.OrganizationId));
 
+
+            CreateMap<Role, RoleDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Name.ToString()));
         }
     }
 }
