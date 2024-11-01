@@ -59,6 +59,7 @@ namespace DAPM.Authenticator
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.AddCors();
 
 
             var mapperConfig = new MapperConfiguration(mc =>
