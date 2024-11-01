@@ -1,7 +1,9 @@
 
 using AutoMapper;
 using DAPM.Authenticator.Data;
+using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
+using DAPM.Authenticator.Repositories;
 using DAPM.Authenticator.Services;
 using DAPM.Authenticator.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,6 +52,10 @@ namespace DAPM.Authenticator
                 });
 
             builder.Services.AddScoped<TokenService>();
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 
             var mapperConfig = new MapperConfiguration(mc =>
