@@ -59,7 +59,13 @@ namespace DAPM.Authenticator
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
-            builder.Services.AddCors();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
 
 
             var mapperConfig = new MapperConfiguration(mc =>
@@ -84,7 +90,7 @@ namespace DAPM.Authenticator
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            app.UseCors("AllowAllOrigins");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -93,7 +99,8 @@ namespace DAPM.Authenticator
             app.MapControllers();
 
             var services = app.Services.CreateScope().ServiceProvider;
-            try {
+            try
+            {
                 var datacontext = services.GetRequiredService<DataContext>();
                 await datacontext.Database.MigrateAsync();
                 var usermanager = services.GetRequiredService<UserManager<User>>();
