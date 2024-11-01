@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
 using DAPM.Authenticator.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UtilLibrary;
+using UtilLibrary.Interfaces;
+using UtilLibrary.models;
 
 namespace DAPM.Authenticator.Controllers
 {
@@ -18,19 +21,25 @@ namespace DAPM.Authenticator.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly TokenService _tokenService;
+        private readonly IIdentityService _identityService;
+        private readonly IUserRepository _userrepository;
 
         public AuthenticationController(
             IMapper mapper,
             IConfiguration configuration,
             UserManager<User> userManager,
+            IUserRepository userRepository,
             RoleManager<Role> roleManager,
-            TokenService tokenService)
+            TokenService tokenService,
+            IIdentityService identityService)
         {
             _mapper = mapper;
             _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
+            _identityService = identityService;
+            _userrepository = userRepository;
         }
 
 
@@ -44,8 +53,16 @@ namespace DAPM.Authenticator.Controllers
                 var registerUserResult = await _userManager.CreateAsync(user, registerDto.Password);
                 if (!registerUserResult.Succeeded) return BadRequest(registerUserResult.Errors);
 
-                var addRoleResult = await _userManager.AddToRoleAsync(user, "Standard");
-                if (!addRoleResult.Succeeded) return BadRequest(addRoleResult.Errors);
+                foreach (var role in registerDto.Roles) {
+                    var addRoleResult = await _userManager.AddToRoleAsync(user, role);
+                    if (!addRoleResult.Succeeded) return BadRequest(addRoleResult.Errors);
+                }
+
+                Identity identity = _identityService.GetIdentity();
+
+                user.OrganizationId = (Guid)identity.Id;
+                user.OrganizationName = identity.Name;
+                _userrepository.SaveChanges(user);
             }
             else
             {

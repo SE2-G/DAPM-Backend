@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using UtilLibrary.Interfaces;
+using UtilLibrary.Services;
 
 namespace DAPM.Authenticator
 {
@@ -56,6 +58,7 @@ namespace DAPM.Authenticator
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
             var mapperConfig = new MapperConfiguration(mc =>

@@ -201,6 +201,16 @@ namespace DAPM.Authenticator.Controllers
 
                 foreach (var role in editDto.Roles)
                 {
+                    //get all roles not present in new list
+                    List<string> currentRoles = userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
+                    List<string> rolesThatNeedToBeRemoved = currentRoles.Except(editDto.Roles).ToList();
+
+                    //remove the roles not present in new list
+                    foreach (string removerole in rolesThatNeedToBeRemoved) {
+                        await userManager.RemoveFromRoleAsync(user, removerole);
+                    }
+                    
+                    //add all new roles, duplicates will sort themselves out
                     if (await rolemanager.RoleExistsAsync(role))
                     {
                         IdentityResult resultrole = await userManager.AddToRoleAsync(user, role);

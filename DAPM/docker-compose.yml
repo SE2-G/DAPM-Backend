@@ -238,6 +238,8 @@ services:
       - "3309:3306"
     networks:
       - DAPM
+    volumes:
+        - mariadb-user-repository-data:/var/lib/mysql
       
 
   adminer:
@@ -256,6 +258,7 @@ networks:
 volumes:
   operator-data:
     name: operator-data
+  mariadb-user-repository-data:
    
 
 
