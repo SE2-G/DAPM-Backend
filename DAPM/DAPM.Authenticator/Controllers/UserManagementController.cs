@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
+using DAPM.Authenticator.Repositories;
 using DAPM.Authenticator.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using UtilLibrary;
 
 namespace DAPM.Authenticator.Controllers
@@ -13,17 +16,24 @@ namespace DAPM.Authenticator.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    public class UserManagementController : ControllerBase
+    public class UserManagementController : BaseController
     {
         private readonly RoleManager<Role> _rolemanager;
         private readonly UserManager<User> _usermanager;
         private readonly IUserRepository _userrepository;
+        private readonly IMapper _mapper;
 
-        public UserManagementController(RoleManager<Role> roleManager, UserManager<User> usermanager, IUserRepository userRepository)
+        public UserManagementController(
+            RoleManager<Role> roleManager, 
+            UserManager<User> usermanager, 
+            IUserRepository userRepository, 
+            IHttpContextAccessor contextAccessor,
+            IMapper mapper): base (contextAccessor)
         {
             _rolemanager = roleManager;
             _usermanager = usermanager;
             _userrepository = userRepository;
+            _mapper = mapper;
         }
 
         //we dont need to check whether the org exists here, the contacter (DAPM.Client) will not set using a org that doesn't exist
@@ -98,5 +108,133 @@ namespace DAPM.Authenticator.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("EditAsAdmin")]
+        public async Task<IActionResult> EditUser(UserEditDto userEditDto ) {
+
+            if (userEditDto == null) {
+                return BadRequest("In order to edit a user the edit dto needs to be included");
+            }
+
+            var user = await _usermanager.FindByIdAsync(userEditDto.Id.ToString());
+
+            if (user == null)
+            {
+                return BadRequest("Attempt to edit user not in database");
+            }
+
+
+            (bool, string) result = await EditUserWithEditDto(userEditDto, user, _usermanager, _rolemanager, _userrepository);
+
+            if (result.Item1)
+            {
+                return Ok(result.Item2);
+            }
+            else { 
+                return BadRequest(result.Item2);
+            }        
+        }
+
+
+        [Authorize(Roles = "User")]
+        [HttpPut("EditAsUser")]
+        public async Task<IActionResult> EditUser2(UserEditDto userEditDto)
+        {
+
+            if (userEditDto == null)
+            {
+                return BadRequest("In order to edit a user the edit dto needs to be included");
+            }
+
+            var user = await _usermanager.FindByIdAsync(userEditDto.Id.ToString());
+
+            if (user == null)
+            {
+                return BadRequest("Attempt to edit user not in database");
+            }
+
+
+            //check whether user is allowed to alter this user
+
+            string userIdstring = userId;
+            if (userIdstring != null)
+            {
+                int.TryParse(userIdstring, out int id);
+
+                if (userEditDto.Id == id)
+                {
+                    (bool, string) result = await EditUserWithEditDto(userEditDto, user, _usermanager, _rolemanager, _userrepository);
+
+                    if (result.Item1)
+                    {
+                        return Ok(result.Item2);
+                    }
+                    else
+                    {
+                        return BadRequest(result.Item2);
+                    }
+                }
+                else {
+                    return BadRequest("You are not authorized to edit this user");
+                }
+            }
+            else {
+                return BadRequest("You are not authorized to edit this user");
+            }
+        }
+
+        private async Task<(bool, string)> EditUserWithEditDto(
+            UserEditDto editDto, 
+            User user, 
+            UserManager<User> userManager, 
+            RoleManager<Role> rolemanager,
+            IUserRepository repository)  {
+
+            try
+            {
+                user.FullName = editDto.FullName;
+                user.UserName = editDto.UserName;
+
+                repository.SaveChanges(user);
+
+
+                foreach (var role in editDto.Roles)
+                {
+                    if (await rolemanager.RoleExistsAsync(role))
+                    {
+                        IdentityResult resultrole = await userManager.AddToRoleAsync(user, role);
+                        if (resultrole != IdentityResult.Success)
+                        {
+                            return (false, $"Error occurred when adding role: {role}");
+                        }
+                    }
+                }
+                if (editDto.NewPassword != "")
+                {
+                    IdentityResult resultremove = await userManager.RemovePasswordAsync(user);
+                    IdentityResult resultadd = await userManager.AddPasswordAsync(user, editDto.NewPassword);
+                    if (resultadd != IdentityResult.Success || resultadd != IdentityResult.Success)
+                    {
+                        return (false, "Error occurred changing password");
+                    }
+                }
+
+                return (true, "Edit operation succeeded");
+            }
+            catch {
+                return (false, "Edit operation encountered an exception");
+            }
+
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("GetUsers")]
+        public async Task<IActionResult> ReturnAllUsers() {
+            List<User> users = _userrepository.Users();
+            return Ok(_mapper.Map<UserDto>(users));
+        } 
+
     }
 }

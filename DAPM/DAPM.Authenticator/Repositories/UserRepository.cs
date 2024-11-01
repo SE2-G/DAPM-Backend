@@ -14,14 +14,14 @@ namespace DAPM.Authenticator.Repositories
             _datacontext = dataContext;
         }
 
-        public Task<User> GetUserById(int id)
+        public User GetUserById(int id)
         {
-            throw new NotImplementedException();
+            return _datacontext.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public Task<User> GetUserByName(string username)
+        public User GetUserByName(string username)
         {
-            throw new NotImplementedException();
+            return _datacontext.Users.FirstOrDefault(u => u.UserName == username);
         }
 
         public int SaveChanges(User user)
@@ -30,14 +30,14 @@ namespace DAPM.Authenticator.Repositories
             return _datacontext.SaveChanges();
         }
 
-        public Task<bool> UserExists(string username)
+        public bool UserExists(string username)
         {
-            throw new NotImplementedException();
+            return GetUserByName(username) != null;
         }
 
-        public Task<IEnumerable<User>> Users()
+        public List<User> Users()
         {
-            throw new NotImplementedException();
+            return _datacontext.Users.ToList();
         }
     }
 }
