@@ -233,7 +233,14 @@ namespace DAPM.Authenticator.Controllers
         [HttpGet("GetUsers")]
         public async Task<IActionResult> ReturnAllUsers() {
             List<User> users = _userrepository.Users();
-            return Ok(_mapper.Map<UserDto>(users));
+
+            List<UserDto> usersdto = users.Select (x => {
+                UserDto userdtoresp = _mapper.Map<UserDto>(x);
+                userdtoresp.Roles = [.. _usermanager.GetRolesAsync(x).GetAwaiter().GetResult()];
+                return userdtoresp;
+                }).ToList();
+
+            return Ok(usersdto);
         } 
 
     }
