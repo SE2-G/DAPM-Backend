@@ -84,7 +84,7 @@ namespace DAPM.Authenticator
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(builder => builder.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseAuthentication();
             app.UseAuthorization();
