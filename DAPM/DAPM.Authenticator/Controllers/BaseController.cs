@@ -7,7 +7,7 @@ namespace DAPM.Authenticator.Controllers
 {
 
     [ApiController]
-    [EnableCors("AllowAll")]
+    [EnableCors("AllowAllOrigins")]
     public class BaseController : ControllerBase
     {
         private readonly IHttpContextAccessor _contextAccessor;
