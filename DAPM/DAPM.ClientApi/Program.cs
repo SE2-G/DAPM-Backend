@@ -17,6 +17,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UtilLibrary.Services;
 using UtilLibrary.Interfaces;
+using RabbitMQLibrary.Messages.Authenticator.Base;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "DAPM Client API", Version = "v1" });
 });
 
+//AUTHENTICATOR
+builder.Services.AddQueueMessageConsumer<RegisterUserResultConsumer, RegisterUserResultMessage>();
+builder.Services.AddQueueMessageConsumer<LoginResultConsumer, LoginResultMessage>();
 
 builder.Services.AddQueueMessageConsumer<GetOrganizationsProcessResultConsumer, GetOrganizationsProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostItemResultConsumer, PostItemProcessResult>();
@@ -83,7 +88,8 @@ builder.Services.AddScoped<ISystemService, SystemService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-//builder.Services.AddScoped<IAuthenticatorService, AuthenticatorService>();
+builder.Services.AddScoped<IAuthenticatorService, AuthenticatorService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

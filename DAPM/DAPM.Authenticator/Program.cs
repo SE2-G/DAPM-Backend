@@ -16,6 +16,16 @@ using System.Text;
 using UtilLibrary.Interfaces;
 using UtilLibrary.Services;
 
+using RabbitMQ.Client;
+using RabbitMQLibrary.Implementation;
+using RabbitMQLibrary.Extensions;
+using DAPM.Authenticator.Consumers;
+using RabbitMQLibrary.Messages.ClientApi;
+using RabbitMQLibrary.Messages.Orchestrator.ServiceResults;
+using RabbitMQLibrary.Messages.Authenticator.Base;
+using RabbitMQLibrary.Messages.Authenticator.RoleManagement;
+using RabbitMQLibrary.Messages.Authenticator.UserManagement;
+
 namespace DAPM.Authenticator
 {
     public class Program
@@ -29,6 +39,16 @@ namespace DAPM.Authenticator
             var connectionstring = configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<DataContext>(options =>
                 options.UseMySql(connectionstring, ServerVersion.AutoDetect(connectionstring)));
+
+            //RABBITMQ
+            builder.Services.AddQueueing(new QueueingConfigurationSettings
+            {
+                RabbitMqConsumerConcurrency = 5,
+                RabbitMqHostname = "rabbitmq",
+                RabbitMqPort = 5672,
+                RabbitMqPassword = "guest",
+                RabbitMqUsername = "guest"
+            });
 
             builder.Services.AddIdentityCore<User>(opt =>
             {
@@ -72,8 +92,20 @@ namespace DAPM.Authenticator
             {
                 mc.AddProfile(new MapperProfile());
             });
-            IMapper mapper = mapperConfig.CreateMapper();
-            builder.Services.AddSingleton(mapper);
+            
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //ADD CONSUMERS
+            builder.Services.AddQueueMessageConsumer<RegisterUserMessageConsumer, RegisterUserMessage>();
+            builder.Services.AddQueueMessageConsumer<DeleteUserMessageConsumer, DeleteUserMessage>();
+            builder.Services.AddQueueMessageConsumer<EditAsAdminMessageConsumer, EditAsAdminMessage>();
+            builder.Services.AddQueueMessageConsumer<EditAsUserMessageConsumer, EditAsUserMessage>();
+            builder.Services.AddQueueMessageConsumer<GetRolesMessageConsumer, GetRolesMessage>();
+            builder.Services.AddQueueMessageConsumer<GetUsersMessageConsumer, GetUsersMessage>();
+            builder.Services.AddQueueMessageConsumer<LoginMessageConsumer, LoginMessage>();
+            builder.Services.AddQueueMessageConsumer<RegisterUserMessageConsumer, RegisterUserMessage>();
+            builder.Services.AddQueueMessageConsumer<SetOrganizationMessageConsumer, SetOrganizationMessage>();
+            builder.Services.AddQueueMessageConsumer<SetRolesMessageConsumer, SetRolesMessage>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

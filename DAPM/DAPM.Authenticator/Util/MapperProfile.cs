@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAPM.Authenticator.Models;
+using RabbitMQLibrary.Messages.Authenticator.Base;
 using UtilLibrary;
 namespace DAPM.Authenticator.Util
 {
@@ -7,7 +8,7 @@ namespace DAPM.Authenticator.Util
     {
         public MapperProfile()
         {
-            CreateMap<RegistrationDto, User>()
+            CreateMap<RegisterUserMessage, User>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(src => src.OrganizationName))
