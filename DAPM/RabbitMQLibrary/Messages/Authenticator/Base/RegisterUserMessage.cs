@@ -16,6 +16,6 @@ namespace RabbitMQLibrary.Messages.Authenticator.Base
         public string OrganizationName { get; set; } = "";
         public Guid OrganizationId { get; set; }
 
-        public List<string> Roles { get; set; } = new List<string> { "Standard" };
+        public List<string> Roles { get; set; }
     }
 }

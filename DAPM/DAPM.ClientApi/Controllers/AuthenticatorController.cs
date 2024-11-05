@@ -30,8 +30,6 @@ namespace DAPM.ClientApi.Controllers
         private readonly IConfiguration _configuration;
         private readonly IAuthenticatorService _authenticatorService;
 
-        //private IAuthenticatorService _authenticationService;
-
         public AuthenticatorController(
             ILogger<AuthenticatorController> logger, 
             IHttpContextAccessor contextAccessor,
@@ -52,6 +50,11 @@ namespace DAPM.ClientApi.Controllers
         {
 
             Identity identity = _identityService.GetIdentity();
+
+            if (!registerDto.Roles.Contains("Standard"))
+            {
+                registerDto.Roles.Add("Standard");
+            }
 
             if (identity == null) {
                 return StatusCode(500, "Failed to retrieve peer identity");
@@ -77,8 +80,8 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "Login", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
-        [HttpPost("DeleteUser")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("DeleteUser/{username}")]
         public async Task<ActionResult<Guid>> DeleteUser(string username)
         {
             Guid id = _authenticatorService.DeleteUser(username);
@@ -86,7 +89,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "DeleteUser", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetRoles")]
         public async Task<ActionResult<Guid>> GetRoles()
         {
@@ -95,7 +98,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "GetRoles", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddRoles")]
         public async Task<ActionResult<Guid>> AddRoles(List<string> roles)
         {
@@ -104,7 +107,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "AddRoles", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("setOrg/{username}")]
         public async Task<ActionResult<Guid>> SetOrganization([FromBody] OrganisationsDto organisationsDto, string username)
         {
@@ -113,7 +116,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "SetOrganization", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("EditAsAdmin")]
         public async Task<ActionResult<Guid>> EditAsAdmin(UserEditDto userEditDto)
         {
@@ -140,7 +143,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "EditAsUser", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("setRoles/{username}")]
         public async Task<ActionResult<Guid>> SetRoles([FromBody] List<string> listofroles, string username)
         {
@@ -154,7 +157,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "SetRoles", TicketId = id });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetUsers")]
         public async Task<ActionResult<Guid>> GetUsers()
         {

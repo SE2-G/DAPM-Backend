@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using RabbitMQLibrary.Messages.ClientApi;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using UtilLibrary;
 
 namespace DAPM.ClientApi.Consumers
 {
@@ -29,7 +30,15 @@ namespace DAPM.ClientApi.Consumers
 
             //Serialization
             result["succeeded"] = message.Succeeded;
-            result["message"] = message.Message;
+
+            if (message.Succeeded)
+            {
+                result["message"] = JToken.Parse(message.Message);
+            }
+            else
+            {
+                result["message"] = message.Message;
+            }
 
             // Update resolution
             _ticketService.UpdateTicketResolution(message.TicketId, result);

@@ -65,7 +65,8 @@ namespace DAPM.ClientApi.Services
                 Password = registerDto.Password,
                 UserName = registerDto.UserName,
                 OrganizationId = registerDto.OrganizationId,
-                OrganizationName = registerDto.OrganizationName
+                OrganizationName = registerDto.OrganizationName,
+                Roles = registerDto.Roles
             };
 
             _registerUserMessageProducer.PublishMessage(message);
