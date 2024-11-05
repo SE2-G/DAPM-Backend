@@ -6,6 +6,7 @@ namespace RabbitMQLibrary.Messages.Authenticator.Base
     public class AddRolesResultMessage : IQueueMessage
     {
         public Guid MessageId { get; set; }
+        public Guid TicketId { get; set; }
         public TimeSpan TimeToLive { get; set; }
 
         public bool Succeeded { get; set; }

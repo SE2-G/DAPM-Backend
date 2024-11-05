@@ -63,6 +63,14 @@ builder.Services.AddSwaggerGen(c =>
 //AUTHENTICATOR
 builder.Services.AddQueueMessageConsumer<RegisterUserResultConsumer, RegisterUserResultMessage>();
 builder.Services.AddQueueMessageConsumer<LoginResultConsumer, LoginResultMessage>();
+builder.Services.AddQueueMessageConsumer<AddRolesResultConsumer, AddRolesResultMessage>();
+builder.Services.AddQueueMessageConsumer<DeleteUserResultConsumer, DeleteUserResultMessage>();
+builder.Services.AddQueueMessageConsumer<EditAsAdminResultConsumer, EditAsAdminResultMessage>();
+builder.Services.AddQueueMessageConsumer<EditAsUserResultConsumer, EditAsUserResultMessage>();
+builder.Services.AddQueueMessageConsumer<GetRolesResultConsumer, GetRolesResultMessage>();
+builder.Services.AddQueueMessageConsumer<GetUsersResultConsumer, GetUsersResultMessage>();
+builder.Services.AddQueueMessageConsumer<SetOrganizationResultConsumer, SetOrganizationResultMessage>();
+builder.Services.AddQueueMessageConsumer<SetRolesResultConsumer, SetRolesResultMessage>();
 
 builder.Services.AddQueueMessageConsumer<GetOrganizationsProcessResultConsumer, GetOrganizationsProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostItemResultConsumer, PostItemProcessResult>();

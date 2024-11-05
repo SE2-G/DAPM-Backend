@@ -6,6 +6,7 @@ namespace RabbitMQLibrary.Messages.Authenticator.UserManagement
     public class EditAsAdminMessage : IQueueMessage
     {
         public Guid MessageId { get; set; }
+        public Guid TicketId { get; set; }
         public TimeSpan TimeToLive { get; set; }
         public int Id { get; set; }
         public string FullName { get; set; }
