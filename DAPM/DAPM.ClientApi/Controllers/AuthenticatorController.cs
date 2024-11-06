@@ -81,7 +81,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("DeleteUser/{username}")]
+        [HttpDelete("deleteUser/{username}")]
         public async Task<ActionResult<Guid>> DeleteUser(string username)
         {
             Guid id = _authenticatorService.DeleteUser(username);
@@ -90,7 +90,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("GetRoles")]
+        [HttpGet("getRoles")]
         public async Task<ActionResult<Guid>> GetRoles()
         {
             Guid id = _authenticatorService.GetRoles();
@@ -99,7 +99,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("AddRoles")]
+        [HttpPost("addRoles")]
         public async Task<ActionResult<Guid>> AddRoles(List<string> roles)
         {
             Guid id = _authenticatorService.AddRoles(roles);
@@ -108,7 +108,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("setOrg/{username}")]
+        [HttpPut("setOrganization/{username}")]
         public async Task<ActionResult<Guid>> SetOrganization([FromBody] OrganisationsDto organisationsDto, string username)
         {
             Guid id = _authenticatorService.SetOrganization(organisationsDto.OrganizationId, organisationsDto.OrganizationName, username);
@@ -117,7 +117,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("EditAsAdmin")]
+        [HttpPut("editAsAdmin")]
         public async Task<ActionResult<Guid>> EditAsAdmin(UserEditDto userEditDto)
         {
             if (userEditDto == null)
@@ -130,7 +130,7 @@ namespace DAPM.ClientApi.Controllers
             return Ok(new ApiResponse { RequestName = "EditAsAdmin", TicketId = id });
         }
 
-        [HttpPut("EditAsUser")]
+        [HttpPut("editAsUser")]
         public async Task<ActionResult<Guid>> EditAsUser(UserEditDto userEditDto)
         {
             if (userEditDto == null)
@@ -144,7 +144,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("setRoles/{username}")]
+        [HttpPut("setRoles/{username}")]
         public async Task<ActionResult<Guid>> SetRoles([FromBody] List<string> listofroles, string username)
         {
             if (listofroles == null)
@@ -158,7 +158,7 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("GetUsers")]
+        [HttpGet("getUsers")]
         public async Task<ActionResult<Guid>> GetUsers()
         {
             Guid id = _authenticatorService.GetUsers();
