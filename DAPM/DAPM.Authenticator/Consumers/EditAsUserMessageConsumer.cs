@@ -105,34 +105,14 @@ namespace DAPM.Authenticator.Consumers
                 return;
             }
 
-            //check whether user is allowed to alter this user
-            var baseController = _serviceScope.ServiceProvider.GetService<BaseController>();
+            (bool, string) result = await EditUser(message, user, _usermanager, _rolemanager, _userrepository);
 
-            string userIdstring = baseController.userId;
-            if (userIdstring != null)
+            if (result.Item1)
             {
-                int.TryParse(userIdstring, out int id);
-
-                if (message.Id == id)
-                {
-                    (bool, string) result = await EditUser(message, user, _usermanager, _rolemanager, _userrepository);
-
-                    if (result.Item1)
-                    {
-                        editAsUserResultMessage.Succeeded = true;
-                    }
-
-                    editAsUserResultMessage.Message = result.Item2;
-                }
-                else
-                {
-                    editAsUserResultMessage.Message = "You are not authorized to edit this user";
-                }
+                editAsUserResultMessage.Succeeded = true;
             }
-            else
-            {
-                editAsUserResultMessage.Message = "You are not authorized to edit this user";
-            }
+
+            editAsUserResultMessage.Message = result.Item2;
 
             _editAsUserResultProducer.PublishMessage(editAsUserResultMessage);
         }

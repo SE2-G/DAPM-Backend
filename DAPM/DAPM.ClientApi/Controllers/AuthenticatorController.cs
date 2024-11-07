@@ -1,5 +1,6 @@
 ﻿using DAPM.ClientApi.Models;
 using DAPM.ClientApi.Services.Interfaces;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
@@ -124,23 +125,33 @@ namespace DAPM.ClientApi.Controllers
             {
                 return BadRequest("In order to edit a user the edit dto needs to be included");
             }
-
             Guid id = _authenticatorService.EditAsAdmin(userEditDto);
-
             return Ok(new ApiResponse { RequestName = "EditAsAdmin", TicketId = id });
         }
 
+        [Authorize(Roles = "Standard")]
         [HttpPut("editAsUser")]
         public async Task<ActionResult<Guid>> EditAsUser(UserEditDto userEditDto)
         {
-            if (userEditDto == null)
+            string userIdstring = userId;
+            if (userIdstring != null)
             {
-                return BadRequest("In order to edit a user the edit dto needs to be included");
+                int.TryParse(userIdstring, out int theid);
+
+                if (userEditDto.Id == theid)
+                {
+                    if (userEditDto == null)
+                    {
+                        return BadRequest("In order to edit a user the edit dto needs to be included");
+                    }
+                    Guid id = _authenticatorService.EditAsUser(userEditDto);
+                    return Ok(new ApiResponse { RequestName = "EditAsUser", TicketId = id });
+                }
+
             }
+            return BadRequest("You are not authorized to edit this user");
 
-            Guid id = _authenticatorService.EditAsUser(userEditDto);
 
-            return Ok(new ApiResponse { RequestName = "EditAsUser", TicketId = id });
         }
 
         [Authorize(Roles = "Admin")]
