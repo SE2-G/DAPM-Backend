@@ -9,7 +9,6 @@ using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using UtilLibrary;
-using DAPM.Authenticator.Controllers;
 
 namespace DAPM.Authenticator.Consumers
 {
