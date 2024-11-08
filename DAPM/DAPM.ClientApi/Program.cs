@@ -166,12 +166,11 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger"; // Set Swagger UI at the root
 });
 
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.MapControllers();
 
