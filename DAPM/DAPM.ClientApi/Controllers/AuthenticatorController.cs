@@ -1,9 +1,15 @@
-﻿using DAPM.ClientApi.Services.Interfaces;
+﻿using DAPM.ClientApi.Models;
+using DAPM.ClientApi.Services.Interfaces;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
+using RabbitMQLibrary.Messages.Authenticator.Base;
+using RabbitMQLibrary.Models;
+using System.Data;
 using System.Text;
 using UtilLibrary;
 using UtilLibrary.Interfaces;
@@ -23,28 +29,33 @@ namespace DAPM.ClientApi.Controllers
         private readonly HttpClient _httpClient;
         private readonly IIdentityService _identityService;
         private readonly IConfiguration _configuration;
-
-        //private IAuthenticatorService _authenticationService;
+        private readonly IAuthenticatorService _authenticatorService;
 
         public AuthenticatorController(
             ILogger<AuthenticatorController> logger, 
             IHttpContextAccessor contextAccessor,
             HttpClient httpClient,
+            IAuthenticatorService authenticatorService,
             IIdentityService identityService,
-            IConfiguration configuration) : base(contextAccessor)
+            IConfiguration configuration): base(contextAccessor)
         {
             _logger = logger;
             _httpClient = httpClient;
             _identityService = identityService;
             _configuration = configuration;
-            //_authenticationService = authenticationService;
+            _authenticatorService = authenticatorService;
         }
 
-        [HttpPost("sign-up")]
-        public async Task<ActionResult<Guid>> SignUp([FromBody] RegistrationDto registerDto)
+        [HttpPost("register")]
+        public async Task<ActionResult<Guid>> Register([FromBody] RegistrationDto registerDto)
         {
 
             Identity identity = _identityService.GetIdentity();
+
+            if (!registerDto.Roles.Contains("Standard"))
+            {
+                registerDto.Roles.Add("Standard");
+            }
 
             if (identity == null) {
                 return StatusCode(500, "Failed to retrieve peer identity");
@@ -53,77 +64,117 @@ namespace DAPM.ClientApi.Controllers
             registerDto.OrganizationId = identity.Id.Value;
             registerDto.OrganizationName = identity.Name;
 
-            //send login request to authenticator endpoint
-            string authEndpoint = RetreiveAuthEndpoint();
-
-            if (registerDto == null)
-            {
-                return BadRequest("No data to register with");
-            }
-            if (authEndpoint == null)
-            {
-                return StatusCode(500, "Authorizer container endpoint not present");
-            }
-
-            string jsonPayload = JsonConvert.SerializeObject(registerDto);
-            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-            var loginEndpoint = $"{authEndpoint}/register";
-            var response = await _httpClient.PostAsync(loginEndpoint, content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return BadRequest("registration failed");
-            }
-            else
-            {
-                return Ok(await response.Content.ReadAsStringAsync());
-            }
+            Guid id = _authenticatorService.RegisterUser(registerDto);
+            return Ok(new ApiResponse { RequestName = "RegisterUser", TicketId = id });
         }
 
-        [HttpPost("log-in")]
-        public async Task<ActionResult<Guid>> LogIn([FromBody] LoginDto loginDto)
+        [HttpPost("login")]
+        public async Task<ActionResult<Guid>> Login([FromBody] LoginDto loginDto)
         {
-            //send login request to authenticator endpoint
-            string authEndpoint = RetreiveAuthEndpoint();
-
             if (loginDto == null)
             {
                 return BadRequest("No data to login with");
             }
-            if (authEndpoint == null) {
-                return StatusCode(500, "Authorizer container endpoint not present");
-            }
 
-            string jsonPayload = JsonConvert.SerializeObject(loginDto);
-            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-            var loginEndpoint = $"{authEndpoint}/login";
-            var response = await _httpClient.PostAsync(loginEndpoint, content);
+            Guid id = _authenticatorService.Login(loginDto);
 
-            if (!response.IsSuccessStatusCode)
+            return Ok(new ApiResponse { RequestName = "Login", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("deleteUser/{username}")]
+        public async Task<ActionResult<Guid>> DeleteUser(string username)
+        {
+            Guid id = _authenticatorService.DeleteUser(username);
+
+            return Ok(new ApiResponse { RequestName = "DeleteUser", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("getRoles")]
+        public async Task<ActionResult<Guid>> GetRoles()
+        {
+            Guid id = _authenticatorService.GetRoles();
+            
+            return Ok(new ApiResponse { RequestName = "GetRoles", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("addRoles")]
+        public async Task<ActionResult<Guid>> AddRoles(List<string> roles)
+        {
+            Guid id = _authenticatorService.AddRoles(roles);
+
+            return Ok(new ApiResponse { RequestName = "AddRoles", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("setOrganization/{username}")]
+        public async Task<ActionResult<Guid>> SetOrganization([FromBody] OrganisationsDto organisationsDto, string username)
+        {
+            Guid id = _authenticatorService.SetOrganization(organisationsDto.OrganizationId, organisationsDto.OrganizationName, username);
+
+            return Ok(new ApiResponse { RequestName = "SetOrganization", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("editAsAdmin")]
+        public async Task<ActionResult<Guid>> EditAsAdmin(UserEditDto userEditDto)
+        {
+            if (userEditDto == null)
             {
-                return BadRequest("login failed");
+                return BadRequest("In order to edit a user the edit dto needs to be included");
             }
-            else { 
-                return Ok(await response.Content.ReadAsStringAsync()); 
+            Guid id = _authenticatorService.EditAsAdmin(userEditDto);
+            return Ok(new ApiResponse { RequestName = "EditAsAdmin", TicketId = id });
+        }
+
+        [Authorize(Roles = "Standard")]
+        [HttpPut("editAsUser")]
+        public async Task<ActionResult<Guid>> EditAsUser(UserEditDto userEditDto)
+        {
+            string userIdstring = userId;
+            if (userIdstring != null)
+            {
+                int.TryParse(userIdstring, out int theid);
+
+                if (userEditDto.Id == theid)
+                {
+                    if (userEditDto == null)
+                    {
+                        return BadRequest("In order to edit a user the edit dto needs to be included");
+                    }
+                    Guid id = _authenticatorService.EditAsUser(userEditDto);
+                    return Ok(new ApiResponse { RequestName = "EditAsUser", TicketId = id });
+                }
+
             }
+            return BadRequest("You are not authorized to edit this user");
+
+
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("add-user")]
-        public async Task<ActionResult<Guid>> AddUser()
+        [HttpPut("setRoles/{username}")]
+        public async Task<ActionResult<Guid>> SetRoles([FromBody] List<string> listofroles, string username)
         {
-            return Ok();
+            if (listofroles == null)
+            {
+                return BadRequest("payload empty");
+            }
+
+            Guid id = _authenticatorService.SetRoles(username, listofroles);
+
+            return Ok(new ApiResponse { RequestName = "SetRoles", TicketId = id });
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("remove-user")]
-        public async Task<ActionResult<Guid>> RemoveUser()
+        [HttpGet("getUsers")]
+        public async Task<ActionResult<Guid>> GetUsers()
         {
-            return Ok();
-        }
+            Guid id = _authenticatorService.GetUsers();
 
-        private string RetreiveAuthEndpoint() {
-            return _configuration.GetSection("InternalAuthenticatorEndpoint")?.Value;
+            return Ok(new ApiResponse { RequestName = "GetUsers", TicketId = id });
         }
     }
 }

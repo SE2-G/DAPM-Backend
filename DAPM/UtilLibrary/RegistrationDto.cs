@@ -9,5 +9,7 @@
         public string OrganizationName { get; set; } = "";
         public Guid OrganizationId { get; set; }
 
+        public List<string> Roles { get; set; }
+
     }
 }

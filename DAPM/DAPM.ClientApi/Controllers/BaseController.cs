@@ -27,5 +27,10 @@ namespace DAPM.ClientApi.Controllers
                                             .User
                                             .Claims
                                             .First(c => c.Type == CustomTokenTypeConstants.OrganisationId)?.Value;
+
+        public string userId => _contextAccessor.HttpContext
+                                            .User
+                                            .Claims
+                                            .First(c => c.Type == CustomTokenTypeConstants.Id)?.Value;
     }
 }

@@ -1,7 +1,9 @@
 
 using AutoMapper;
 using DAPM.Authenticator.Data;
+using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
+using DAPM.Authenticator.Repositories;
 using DAPM.Authenticator.Services;
 using DAPM.Authenticator.Util;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +13,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
+using UtilLibrary.Interfaces;
+using UtilLibrary.Services;
+
+using RabbitMQ.Client;
+using RabbitMQLibrary.Implementation;
+using RabbitMQLibrary.Extensions;
+using DAPM.Authenticator.Consumers;
+using RabbitMQLibrary.Messages.ClientApi;
+using RabbitMQLibrary.Messages.Orchestrator.ServiceResults;
+using RabbitMQLibrary.Messages.Authenticator.Base;
+using RabbitMQLibrary.Messages.Authenticator.RoleManagement;
+using RabbitMQLibrary.Messages.Authenticator.UserManagement;
 
 namespace DAPM.Authenticator
 {
@@ -25,6 +39,16 @@ namespace DAPM.Authenticator
             var connectionstring = configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<DataContext>(options =>
                 options.UseMySql(connectionstring, ServerVersion.AutoDetect(connectionstring)));
+
+            //RABBITMQ
+            builder.Services.AddQueueing(new QueueingConfigurationSettings
+            {
+                RabbitMqConsumerConcurrency = 5,
+                RabbitMqHostname = "rabbitmq",
+                RabbitMqPort = 5672,
+                RabbitMqPassword = "guest",
+                RabbitMqUsername = "guest"
+            });
 
             builder.Services.AddIdentityCore<User>(opt =>
             {
@@ -51,13 +75,37 @@ namespace DAPM.Authenticator
 
             builder.Services.AddScoped<TokenService>();
 
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IIdentityService, IdentityService>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MapperProfile());
             });
-            IMapper mapper = mapperConfig.CreateMapper();
-            builder.Services.AddSingleton(mapper);
+            
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //ADD CONSUMERS
+            builder.Services.AddQueueMessageConsumer<RegisterUserMessageConsumer, RegisterUserMessage>();
+            builder.Services.AddQueueMessageConsumer<DeleteUserMessageConsumer, DeleteUserMessage>();
+            builder.Services.AddQueueMessageConsumer<EditAsAdminMessageConsumer, EditAsAdminMessage>();
+            builder.Services.AddQueueMessageConsumer<EditAsUserMessageConsumer, EditAsUserMessage>();
+            builder.Services.AddQueueMessageConsumer<GetRolesMessageConsumer, GetRolesMessage>();
+            builder.Services.AddQueueMessageConsumer<GetUsersMessageConsumer, GetUsersMessage>();
+            builder.Services.AddQueueMessageConsumer<LoginMessageConsumer, LoginMessage>();
+            builder.Services.AddQueueMessageConsumer<RegisterUserMessageConsumer, RegisterUserMessage>();
+            builder.Services.AddQueueMessageConsumer<SetOrganizationMessageConsumer, SetOrganizationMessage>();
+            builder.Services.AddQueueMessageConsumer<SetRolesMessageConsumer, SetRolesMessage>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -74,7 +122,7 @@ namespace DAPM.Authenticator
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors("AllowAllOrigins");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -83,7 +131,8 @@ namespace DAPM.Authenticator
             app.MapControllers();
 
             var services = app.Services.CreateScope().ServiceProvider;
-            try {
+            try
+            {
                 var datacontext = services.GetRequiredService<DataContext>();
                 await datacontext.Database.MigrateAsync();
                 var usermanager = services.GetRequiredService<UserManager<User>>();
