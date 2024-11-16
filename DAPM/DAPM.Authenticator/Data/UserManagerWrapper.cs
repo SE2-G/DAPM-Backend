@@ -1,5 +1,6 @@
 ﻿using DAPM.Authenticator.Interfaces;
 using DAPM.Authenticator.Models;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Identity;
 
 namespace DAPM.Authenticator.Data
@@ -13,6 +14,11 @@ namespace DAPM.Authenticator.Data
             _userManager = userManager;
         }
 
+        public Task<IdentityResult> AddPasswordAsync(User user, string newpassword)
+        {
+            return _userManager.AddPasswordAsync(user, newpassword);
+        }
+
         public Task<IdentityResult> AddToRoleAsync(User user, string role)
         {
             return _userManager.AddToRoleAsync(user, role);
@@ -23,6 +29,16 @@ namespace DAPM.Authenticator.Data
             return _userManager.CreateAsync(user, password);
         }
 
+        public Task<IdentityResult> DeleteAsync(User user)
+        {
+            return _userManager.DeleteAsync(user);
+        }
+
+        public Task<User> FindByIdAsync(string id)
+        {
+            return _userManager.FindByIdAsync(id);
+        }
+
         public Task<User> FindByNameAsync(string name)
         {
             return _userManager.FindByNameAsync(name);
@@ -31,6 +47,16 @@ namespace DAPM.Authenticator.Data
         public Task<IList<string>> GetRolesAsync(User user)
         {
             return _userManager.GetRolesAsync(user);
+        }
+
+        public Task<IdentityResult> RemoveFromRoleAsync(User user, string removerole)
+        {
+            return _userManager.RemoveFromRoleAsync(user, removerole);
+        }
+
+        public Task<IdentityResult> RemovePasswordAsync(User user)
+        {
+            return _userManager.RemovePasswordAsync(user);
         }
     }
 }

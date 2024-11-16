@@ -9,17 +9,18 @@ using UtilLibrary;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class EditAsAdminMessageConsumer : IQueueConsumer<EditAsAdminMessage>
     {
         private readonly RoleManager<Role> _rolemanager;
-        private readonly UserManager<User> _usermanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<EditAsAdminResultMessage> _editAsAdminResultProducer;
 
-        public EditAsAdminMessageConsumer(UserManager<User> usermanager, RoleManager<Role> rolemanager, IUserRepository userrepository, IQueueProducer<EditAsAdminResultMessage> editAsAdminResultProducer)
+        public EditAsAdminMessageConsumer(IUserManagerWrapper usermanager, RoleManager<Role> rolemanager, IUserRepository userrepository, IQueueProducer<EditAsAdminResultMessage> editAsAdminResultProducer)
         {
             _usermanager = usermanager;
             _userrepository = userrepository;
@@ -30,7 +31,7 @@ namespace DAPM.Authenticator.Consumers
         private async Task<(bool, string)> EditUser(
             EditAsAdminMessage editDto,
             User user,
-            UserManager<User> userManager,
+            IUserManagerWrapper userManager,
             RoleManager<Role> rolemanager,
             IUserRepository repository)
         {

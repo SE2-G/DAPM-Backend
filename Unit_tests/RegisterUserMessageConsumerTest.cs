@@ -15,7 +15,7 @@ using UtilLibrary.Interfaces;
 
 namespace Unit_tests
 {
-    public class Tests
+    public class RegisterMessageMessageConsumerTest
     {
         RegisterUserMessageConsumer registerconsumer;
 
@@ -104,7 +104,7 @@ namespace Unit_tests
         }
 
         [Test]
-        public async Task Test1()
+        public async Task RegisterUserTest()
         {
             await registerconsumer.ConsumeAsync(source);
 
