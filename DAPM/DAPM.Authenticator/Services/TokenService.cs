@@ -1,4 +1,5 @@
-﻿using DAPM.Authenticator.Models;
+﻿using DAPM.Authenticator.Interfaces;
+using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,13 +9,13 @@ using UtilLibrary;
 
 namespace DAPM.Authenticator.Services
 {
-    public partial class TokenService
+    public partial class TokenService : ITokenService
     {
-        private UserManager<User> _usermanager;
+        private IUserManagerWrapper _usermanager;
         private IConfiguration _config;
         private SymmetricSecurityKey _symmetricSecurityKey;
 
-        public TokenService(IConfiguration configuration, UserManager<User> userManager) 
+        public TokenService(IConfiguration configuration, IUserManagerWrapper userManager) 
         {
             _usermanager = userManager;
             _config = configuration;

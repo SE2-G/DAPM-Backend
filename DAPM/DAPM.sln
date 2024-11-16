@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAPM.Authenticator", "DAPM.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilLibrary", "UtilLibrary\UtilLibrary.csproj", "{97F553DC-3E29-49AE-B093-C10B2D1FA864}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_tests", "..\Unit_tests\Unit_tests.csproj", "{C566D8E3-BB4E-40EF-8DB1-EA1813880904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{97F553DC-3E29-49AE-B093-C10B2D1FA864}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97F553DC-3E29-49AE-B093-C10B2D1FA864}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97F553DC-3E29-49AE-B093-C10B2D1FA864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C566D8E3-BB4E-40EF-8DB1-EA1813880904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C566D8E3-BB4E-40EF-8DB1-EA1813880904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C566D8E3-BB4E-40EF-8DB1-EA1813880904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C566D8E3-BB4E-40EF-8DB1-EA1813880904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
