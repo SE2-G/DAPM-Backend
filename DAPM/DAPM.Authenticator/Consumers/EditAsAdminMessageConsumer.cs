@@ -15,12 +15,12 @@ namespace DAPM.Authenticator.Consumers
 {
     public class EditAsAdminMessageConsumer : IQueueConsumer<EditAsAdminMessage>
     {
-        private readonly RoleManager<Role> _rolemanager;
+        private readonly IRoleManagerWrapper _rolemanager;
         private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<EditAsAdminResultMessage> _editAsAdminResultProducer;
 
-        public EditAsAdminMessageConsumer(IUserManagerWrapper usermanager, RoleManager<Role> rolemanager, IUserRepository userrepository, IQueueProducer<EditAsAdminResultMessage> editAsAdminResultProducer)
+        public EditAsAdminMessageConsumer(IUserManagerWrapper usermanager, IRoleManagerWrapper rolemanager, IUserRepository userrepository, IQueueProducer<EditAsAdminResultMessage> editAsAdminResultProducer)
         {
             _usermanager = usermanager;
             _userrepository = userrepository;
@@ -32,7 +32,7 @@ namespace DAPM.Authenticator.Consumers
             EditAsAdminMessage editDto,
             User user,
             IUserManagerWrapper userManager,
-            RoleManager<Role> rolemanager,
+            IRoleManagerWrapper rolemanager,
             IUserRepository repository)
         {
 

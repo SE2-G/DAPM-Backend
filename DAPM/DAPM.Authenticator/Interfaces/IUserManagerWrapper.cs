@@ -23,5 +23,8 @@ namespace DAPM.Authenticator.Interfaces
         Task<IdentityResult> RemovePasswordAsync(User user);
 
         Task<IdentityResult> AddPasswordAsync(User user, string newpassword);
+
+
+        Task<bool> CheckPasswordAsync(User user, string password);
     }
 }

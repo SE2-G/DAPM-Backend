@@ -12,18 +12,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UtilLibrary.models;
 
 namespace Unit_tests
 {
-    public class EditAsAdminMessageConsumerTest
+    public class EditAsUserMessageConsumerTest
     {
-
         List<string> allroles = new List<string>() { "Standard", "Admin", "Privileged" };
-
-
-        EditAsAdminMessageConsumer consumer;
-        EditAsAdminMessage message = new EditAsAdminMessage {
+        EditAsUserMessageConsumer consumer;
+        EditAsUserMessage message = new EditAsUserMessage
+        {
             MessageId = Guid.NewGuid(),
             TicketId = Guid.NewGuid(),
             TimeToLive = TimeSpan.FromSeconds(1),
@@ -31,7 +28,7 @@ namespace Unit_tests
             FullName = "Jimbob",
             UserName = "bobby",
             NewPassword = "",
-            Roles = new List<string> { "Admin", "Standard" }
+            Roles = new List<string> { "Standard" }
         };
 
         List<(User, List<Role>, string)> usersRolesAndPasswords = new List<(User, List<Role>, string)> {
@@ -48,9 +45,8 @@ namespace Unit_tests
 
         [SetUp]
         public void Setup() {
-
-            Mock<IQueueProducer<EditAsAdminResultMessage>> _mockqueueu = new Mock<IQueueProducer<EditAsAdminResultMessage>>();
-            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<EditAsAdminResultMessage>()));
+            Mock<IQueueProducer<EditAsUserResultMessage>> _mockqueueu = new Mock<IQueueProducer<EditAsUserResultMessage>>();
+            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<EditAsUserResultMessage>()));
 
             Mock<IUserManagerWrapper> _mockusermanager = new Mock<IUserManagerWrapper>();
             _mockusermanager.Setup(usermanager => usermanager.FindByIdAsync(It.IsAny<string>()))
@@ -59,8 +55,8 @@ namespace Unit_tests
             _mockusermanager.Setup(usermanager => usermanager.GetRolesAsync(It.IsAny<User>())).ReturnsAsync(
                 (User input) => {
                     (User, List<Role>, string) user = usersRolesAndPasswords.FirstOrDefault(x => x.Item1.Id == input.Id);
-                    return user.Item1 != null ? user.Item2.Select(x => x.Name).ToList() : new List<string>();              
-                }    
+                    return user.Item1 != null ? user.Item2.Select(x => x.Name).ToList() : new List<string>();
+                }
             );
 
             _mockusermanager.Setup(usermanager => usermanager.RemoveFromRoleAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(
@@ -94,20 +90,18 @@ namespace Unit_tests
             _mockrolemanager.Setup(repo => repo.RoleExistsAsync(It.IsAny<string>())).ReturnsAsync((string role) => allroles.Contains(role));
 
 
-
-            consumer = new EditAsAdminMessageConsumer(
+            consumer = new EditAsUserMessageConsumer(
                 _mockusermanager.Object,
                 _mockrolemanager.Object,
                 _mockuserrepo.Object,
                 _mockqueueu.Object);
 
 
-
         }
 
         [Test]
-        public async Task EditUserTestAsAdmin() {
-            await consumer.ConsumeAsync(message);     
+        public async Task EditUserTestAsUser() {
+            await consumer.ConsumeAsync(message);
         }
 
     }

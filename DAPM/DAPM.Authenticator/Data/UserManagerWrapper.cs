@@ -24,6 +24,11 @@ namespace DAPM.Authenticator.Data
             return _userManager.AddToRoleAsync(user, role);
         }
 
+        public Task<bool> CheckPasswordAsync(User user, string password)
+        {
+            return _userManager.CheckPasswordAsync(user, password);
+        }
+
         public Task<IdentityResult> CreateAsync(User user, string password)
         {
             return _userManager.CreateAsync(user, password);
