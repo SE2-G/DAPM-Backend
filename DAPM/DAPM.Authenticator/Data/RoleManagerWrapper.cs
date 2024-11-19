@@ -19,6 +19,11 @@ namespace DAPM.Authenticator.Data
             return _rolemanager.CreateAsync(role);
         }
 
+        public Task<Role> FindByNameAsync(string role)
+        {
+            return _rolemanager.FindByNameAsync(role);
+        }
+
         public Task<bool> RoleExistsAsync(string role)
         {
             return _rolemanager.RoleExistsAsync(role);

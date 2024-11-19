@@ -16,7 +16,7 @@ public class RegisterUserMessageConsumer : IQueueConsumer<RegisterUserMessage>
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
     private readonly IUserManagerWrapper _userManager;
-    private readonly RoleManager<Role> _roleManager;
+    private readonly IRoleManagerWrapper _roleManager;
     private readonly ITokenService _tokenService;
     private readonly IIdentityService _identityService;
     private readonly IUserRepository _userrepository;
@@ -28,7 +28,7 @@ public class RegisterUserMessageConsumer : IQueueConsumer<RegisterUserMessage>
         IConfiguration configuration,
         IUserManagerWrapper userManager,
         IUserRepository userRepository,
-        RoleManager<Role> roleManager,
+        IRoleManagerWrapper roleManager,
         ITokenService tokenService,
         IIdentityService identityService,
         IQueueProducer<RegisterUserResultMessage> registerUserResultMessageProducer)

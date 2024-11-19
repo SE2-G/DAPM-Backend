@@ -74,7 +74,7 @@ namespace DAPM.Authenticator
                     };
                 });
 
-            builder.Services.AddScoped<TokenService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -83,6 +83,7 @@ namespace DAPM.Authenticator
 
             //wrappers needed for testing
             builder.Services.AddScoped<IUserManagerWrapper, UserManagerWrapper>();
+            builder.Services.AddScoped<IRoleManagerWrapper, RoleManagerWrapper>();
 
 
             builder.Services.AddCors(options =>
