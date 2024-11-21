@@ -9,5 +9,7 @@ namespace DAPM.ClientApi.Services.Interfaces
         public TicketResolutionType GetTicketResolutionType(Guid ticketId);
         public Guid CreateNewTicket(TicketResolutionType resolutionType);
         public void UpdateTicketResolution(Guid ticketId, JToken resolution);
+        void StoreTicket(Guid ticketId, string userName);
+        string GetUsernameByTicket(Guid ticketId);
     }
 }

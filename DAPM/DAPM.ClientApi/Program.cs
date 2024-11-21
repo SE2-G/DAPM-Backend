@@ -19,6 +19,7 @@ using UtilLibrary.Services;
 using UtilLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -98,6 +99,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IAuthenticatorService, AuthenticatorService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
+builder.Services.AddSingleton(new FileLogService(Path.Combine(AppContext.BaseDirectory, "Logs", "ActivityLog.txt")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -120,5 +120,16 @@ namespace DAPM.ClientApi.Services
             }
             _logger.LogInformation($"Ticket resolution of ticket {ticketId} has been updated");
         }
+        private readonly Dictionary<Guid, string> _ticketStore = new(); // Store ticketId and username
+
+        public void StoreTicket(Guid ticketId, string userName)
+        {
+            _ticketStore[ticketId] = userName;
+        }
+
+        public string GetUsernameByTicket(Guid ticketId)
+        {
+            return _ticketStore.TryGetValue(ticketId, out var userName) ? userName : "Unknown";
+        }
     }
 }

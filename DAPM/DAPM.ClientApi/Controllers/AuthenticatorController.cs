@@ -1,4 +1,6 @@
-﻿using DAPM.ClientApi.Models;
+﻿using DAPM.Authenticator.Data;
+using DAPM.ClientApi.Models;
+using DAPM.ClientApi.Services;
 using DAPM.ClientApi.Services.Interfaces;
 using Google.Protobuf;
 using Microsoft.AspNetCore.Authorization;
@@ -30,20 +32,26 @@ namespace DAPM.ClientApi.Controllers
         private readonly IIdentityService _identityService;
         private readonly IConfiguration _configuration;
         private readonly IAuthenticatorService _authenticatorService;
-
+        private readonly IActivityLogService _activityLogService;
+        private readonly ITicketService _ticketService;
         public AuthenticatorController(
-            ILogger<AuthenticatorController> logger, 
+            ILogger<AuthenticatorController> logger,
             IHttpContextAccessor contextAccessor,
             HttpClient httpClient,
             IAuthenticatorService authenticatorService,
             IIdentityService identityService,
-            IConfiguration configuration): base(contextAccessor)
+            IConfiguration configuration,
+            IActivityLogService activityLogService,
+            ITicketService ticketService)
+            : base(contextAccessor)
         {
             _logger = logger;
             _httpClient = httpClient;
             _identityService = identityService;
             _configuration = configuration;
             _authenticatorService = authenticatorService;
+            _activityLogService = activityLogService;
+            _ticketService = ticketService;
         }
 
         [HttpPost("register")]
@@ -69,17 +77,33 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<Guid>> Login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<ApiResponse>> Login([FromBody] LoginDto loginDto)
         {
             if (loginDto == null)
             {
                 return BadRequest("No data to login with");
             }
 
-            Guid id = _authenticatorService.Login(loginDto);
+            Guid ticketId = _authenticatorService.Login(loginDto); 
+            bool isSuccess = ticketId != Guid.Empty;
 
-            return Ok(new ApiResponse { RequestName = "Login", TicketId = id });
+            if (isSuccess)
+            {
+                // Store the username with the ticket ID
+                _ticketService.StoreTicket(ticketId, loginDto.UserName);
+            }
+
+            return Ok(new ApiResponse
+            {
+                RequestName = "Login",
+                TicketId = ticketId,
+                Success = isSuccess,
+                Message = isSuccess ? "Login successful" : "Invalid credentials"
+            });
         }
+
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("deleteUser/{username}")]
