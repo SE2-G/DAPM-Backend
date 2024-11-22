@@ -9,33 +9,30 @@ using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using UtilLibrary;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class EditAsUserMessageConsumer : IQueueConsumer<EditAsUserMessage>
     {
-        private readonly RoleManager<Role> _rolemanager;
-        private readonly UserManager<User> _usermanager;
+        private readonly IRoleManagerWrapper _rolemanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<EditAsUserResultMessage> _editAsUserResultProducer;
-        private IServiceProvider _serviceProvider;
-        protected IServiceScope _serviceScope;
 
-        public EditAsUserMessageConsumer(UserManager<User> usermanager, RoleManager<Role> rolemanager, IUserRepository userrepository, IQueueProducer<EditAsUserResultMessage> editAsUserResultProducer, IServiceProvider serviceProvider)
+        public EditAsUserMessageConsumer(IUserManagerWrapper usermanager, IRoleManagerWrapper rolemanager, IUserRepository userrepository, IQueueProducer<EditAsUserResultMessage> editAsUserResultProducer)
         {
             _usermanager = usermanager;
             _userrepository = userrepository;
             _rolemanager = rolemanager;
             _editAsUserResultProducer = editAsUserResultProducer;
-            _serviceProvider = serviceProvider;
-            _serviceScope = _serviceProvider.CreateScope();
         }
 
         private async Task<(bool, string)> EditUser(
             EditAsUserMessage editDto,
             User user,
-            UserManager<User> userManager,
-            RoleManager<Role> rolemanager,
+            IUserManagerWrapper userManager,
+            IRoleManagerWrapper rolemanager,
             IUserRepository repository)
         {
 
@@ -46,7 +43,9 @@ namespace DAPM.Authenticator.Consumers
 
                 repository.SaveChanges(user);
 
-
+                
+                // Users should not be able to add new roles to themselves
+                /*
                 //remove all roles
                 List<string> currentRoles = userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
                 foreach (string removerole in currentRoles)
@@ -65,7 +64,10 @@ namespace DAPM.Authenticator.Consumers
                             return (false, $"Error occurred when adding role: {role}");
                         }
                     }
-                }
+                }*/
+
+
+
                 if (editDto.NewPassword != "")
                 {
                     IdentityResult resultremove = await userManager.RemovePasswordAsync(user);

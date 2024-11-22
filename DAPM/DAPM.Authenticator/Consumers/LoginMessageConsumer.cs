@@ -11,6 +11,7 @@ using UtilLibrary;
 using AutoMapper;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using RabbitMQLibrary.Messages.ClientApi;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
@@ -19,9 +20,9 @@ namespace DAPM.Authenticator.Consumers
         private readonly ILogger<LoginMessageConsumer> _logger;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly TokenService _tokenService;
+        private readonly IUserManagerWrapper _userManager;
+        private readonly IRoleManagerWrapper _roleManager;
+        private readonly ITokenService _tokenService;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<LoginResultMessage> _loginResultMessageProducer;
 
@@ -29,10 +30,10 @@ namespace DAPM.Authenticator.Consumers
             ILogger<LoginMessageConsumer> logger,
             IMapper mapper,
             IConfiguration configuration,
-            UserManager<User> userManager,
+            IUserManagerWrapper userManager,
             IUserRepository userRepository,
-            RoleManager<Role> roleManager,
-            TokenService tokenService,
+            IRoleManagerWrapper roleManager,
+            ITokenService tokenService,
             IQueueProducer<LoginResultMessage> loginResultMessage)
         {
             _logger = logger;

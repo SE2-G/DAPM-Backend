@@ -9,16 +9,17 @@ using Microsoft.AspNetCore.Identity;
 using UtilLibrary;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class SetOrganizationMessageConsumer : IQueueConsumer<SetOrganizationMessage>
     {
-        private readonly UserManager<User> _usermanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<SetOrganizationResultMessage> _setOrganizationResultProducer;
 
-        public SetOrganizationMessageConsumer(UserManager<User> usermanager, IUserRepository userrepository, IQueueProducer<SetOrganizationResultMessage> setOrganizationResultProducer)
+        public SetOrganizationMessageConsumer(IUserManagerWrapper usermanager, IUserRepository userrepository, IQueueProducer<SetOrganizationResultMessage> setOrganizationResultProducer)
         {
             _usermanager = usermanager;
             _userrepository = userrepository;
