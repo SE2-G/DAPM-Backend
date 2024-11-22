@@ -8,15 +8,16 @@ using DAPM.Authenticator.Services;
 using UtilLibrary.Interfaces;
 using UtilLibrary.models;
 using RabbitMQLibrary.Messages.ClientApi;
+using DAPM.Authenticator.Interfaces;
 
 public class RegisterUserMessageConsumer : IQueueConsumer<RegisterUserMessage>
 {
     private readonly ILogger<RegisterUserMessageConsumer> _logger;
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
-    private readonly UserManager<User> _userManager;
-    private readonly RoleManager<Role> _roleManager;
-    private readonly TokenService _tokenService;
+    private readonly IUserManagerWrapper _userManager;
+    private readonly IRoleManagerWrapper _roleManager;
+    private readonly ITokenService _tokenService;
     private readonly IIdentityService _identityService;
     private readonly IUserRepository _userrepository;
     private readonly IQueueProducer<RegisterUserResultMessage> _registerUserResultMessageProducer;
@@ -25,10 +26,10 @@ public class RegisterUserMessageConsumer : IQueueConsumer<RegisterUserMessage>
         ILogger<RegisterUserMessageConsumer> logger,
         IMapper mapper,
         IConfiguration configuration,
-        UserManager<User> userManager,
+        IUserManagerWrapper userManager,
         IUserRepository userRepository,
-        RoleManager<Role> roleManager,
-        TokenService tokenService,
+        IRoleManagerWrapper roleManager,
+        ITokenService tokenService,
         IIdentityService identityService,
         IQueueProducer<RegisterUserResultMessage> registerUserResultMessageProducer)
     {

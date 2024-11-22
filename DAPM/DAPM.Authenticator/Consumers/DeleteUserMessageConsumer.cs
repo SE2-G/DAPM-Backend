@@ -8,15 +8,17 @@ using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using DAPM.Authenticator.Data;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class DeleteUserMessageConsumer : IQueueConsumer<DeleteUserMessage>
     {
-        private readonly UserManager<User> _usermanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IQueueProducer<DeleteUserResultMessage> _deleteUserResultProducer;
 
-        public DeleteUserMessageConsumer(UserManager<User> usermanager, IQueueProducer<DeleteUserResultMessage> deleteUserResultProducer)
+        public DeleteUserMessageConsumer(IUserManagerWrapper usermanager, IQueueProducer<DeleteUserResultMessage> deleteUserResultProducer)
         {
             _usermanager = usermanager;
             _deleteUserResultProducer = deleteUserResultProducer;

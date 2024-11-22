@@ -8,17 +8,22 @@ using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class SetRolesMessageConsumer : IQueueConsumer<SetRolesMessage>
     {
-        private readonly RoleManager<Role> _rolemanager;
-        private readonly UserManager<User> _usermanager;
+        private readonly IRoleManagerWrapper _rolemanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IQueueProducer<SetRolesResultMessage> _setRolesResultProducer;
 
-        public SetRolesMessageConsumer(UserManager<User> usermanager, RoleManager<Role> rolemanager, IUserRepository userrepository, IQueueProducer<SetRolesResultMessage> setRolesResultProducer)
+        public SetRolesMessageConsumer(
+            IUserManagerWrapper usermanager, 
+            IRoleManagerWrapper rolemanager, 
+            IUserRepository userrepository, 
+            IQueueProducer<SetRolesResultMessage> setRolesResultProducer)
         {
             _usermanager = usermanager;
             _userrepository = userrepository;
