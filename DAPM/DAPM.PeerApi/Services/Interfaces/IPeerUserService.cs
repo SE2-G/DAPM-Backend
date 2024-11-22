@@ -1,23 +1,13 @@
-﻿using UtilLibrary.Interfaces;
-using UtilLibrary.models;
+﻿using RabbitMQLibrary.Models;
 
 namespace DAPM.PeerApi.Services.Interfaces
 {
     public interface IPeerUserService
     {
-        // Users
+        public void OnAuthenticateRequest(Guid authenticationId, IdentityDTO senderIdentity, string UserName, string Password);
+        public void OnAuthenticateRequestResponse(Guid authenticationId, IdentityDTO senderIdentity, string Passtoken, bool IsAuthenticated);
 
-        public void OnGetPeerUsers();
-
-        // invite guest user (term to denote user from other org)
-
-        public void OnInvitePeerUser(Identity identity);
-
-        // Resources
-
-        public void OnGetSharedPeerResources(Identity identity);
-
-        // proxy versions of original, that syncs actions with originating peer.
-
+        public void OnInviteUserRequest(Guid inviteUserId, IdentityDTO senderIdentity, string UserName);
+        public void OnInviteUserRequestResponse(Guid inviteUserId, IdentityDTO senderIdentity, bool IsAccepted);
     }
 }
