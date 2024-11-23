@@ -16,7 +16,6 @@ namespace DAPM.ClientApi.Services
             _logger = logger;
             _logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Logs", "ActivityLog.txt");
 
-            // Ensure Logs directory exists
             var logDirectory = Path.GetDirectoryName(_logFilePath);
             if (!Directory.Exists(logDirectory))
             {
@@ -30,12 +29,13 @@ namespace DAPM.ClientApi.Services
             {
                 var logEntry = $"{timestamp:yyyy-MM-dd HH:mm:ss} | User: {userName} | Action: {action} | Result: {result}";
                 await File.AppendAllTextAsync(_logFilePath, logEntry + Environment.NewLine);
-                _logger.LogInformation("Activity logged: {LogEntry}", logEntry);
+                _logger.LogInformation($"Logged activity: {logEntry}");
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error logging activity: {ex.Message}");
             }
         }
+
     }
 }

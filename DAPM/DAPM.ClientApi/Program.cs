@@ -72,6 +72,7 @@ builder.Services.AddQueueMessageConsumer<GetRolesResultConsumer, GetRolesResultM
 builder.Services.AddQueueMessageConsumer<GetUsersResultConsumer, GetUsersResultMessage>();
 builder.Services.AddQueueMessageConsumer<SetOrganizationResultConsumer, SetOrganizationResultMessage>();
 builder.Services.AddQueueMessageConsumer<SetRolesResultConsumer, SetRolesResultMessage>();
+builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 
 builder.Services.AddQueueMessageConsumer<GetOrganizationsProcessResultConsumer, GetOrganizationsProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostItemResultConsumer, PostItemProcessResult>();
@@ -82,11 +83,6 @@ builder.Services.AddQueueMessageConsumer<GetResourceFilesProcessResultConsumer, 
 builder.Services.AddQueueMessageConsumer<CollabHandshakeProcessResultConsumer, CollabHandshakeProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostPipelineCommandProcessResultConsumer, PostPipelineCommandProcessResult>();
 builder.Services.AddQueueMessageConsumer<GetPipelineExecutionStatusProcessResultConsumer, GetPipelineExecutionStatusRequestResult>();
-
-
-
-// Add services to the container.
-
 
 builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
@@ -173,6 +169,8 @@ app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ActivityLogMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.MapControllers();
