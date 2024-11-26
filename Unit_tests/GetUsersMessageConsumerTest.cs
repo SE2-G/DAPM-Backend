@@ -4,6 +4,7 @@ using DAPM.Authenticator.Interfaces;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
 using Moq;
+using Newtonsoft.Json;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using RabbitMQLibrary.Messages.Authenticator.UserManagement;
@@ -20,7 +21,20 @@ namespace Unit_tests
     {
 
         GetUsersMessageConsumer consumer;
-        List<(User, List<Role>)> usersAndRoles = new List<(User, List<Role>)> {
+        List<(User, List<Role>)> usersAndRoles;
+        GetUsersMessage message = new GetUsersMessage()
+        {
+            MessageId = Guid.NewGuid(),
+            TicketId = Guid.NewGuid(),
+            TimeToLive = TimeSpan.FromSeconds(1)
+        };
+
+        GetUsersResultMessage result = null;
+
+        [SetUp]
+        public void Setup() {
+
+            usersAndRoles = new List<(User, List<Role>)> {
              (
                 new User {
                 FullName = "Jimbob",
@@ -29,18 +43,10 @@ namespace Unit_tests
                 UserName = "johnny" },
                 new List<Role>(){new Role{Name= "Standard"} }
                 )};
-        GetUsersMessage message = new GetUsersMessage()
-        {
-            MessageId = Guid.NewGuid(),
-            TicketId = Guid.NewGuid(),
-            TimeToLive = TimeSpan.FromSeconds(1)
-        }; 
 
-        [SetUp]
-        public void Setup() { 
-        
             Mock<IQueueProducer<GetUsersResultMessage>> _mockqueueu = new Mock<IQueueProducer<GetUsersResultMessage>>();
-            _mockqueueu.Setup(q => q.PublishMessage(It.IsAny<GetUsersResultMessage>()));
+            _mockqueueu.Setup(q => q.PublishMessage(It.IsAny<GetUsersResultMessage>()))
+                 .Callback<GetUsersResultMessage>(v => result = v);
 
             Mock<IUserManagerWrapper> _mockusermanager = new Mock<IUserManagerWrapper>();
             _mockusermanager.Setup(usermanager => usermanager.GetRolesAsync(It.IsAny<User>())).ReturnsAsync(
@@ -78,6 +84,10 @@ namespace Unit_tests
         [Test]
         public void TestUserRetrieval() {
             consumer.ConsumeAsync(message);
+            Assert.True( result != null );
+            List<UserDto> users = JsonConvert.DeserializeObject<List<UserDto>>(result.Message);
+            Assert.True(users[0].UserName == usersAndRoles[0].Item1.UserName);
+            Assert.True(users.Count == usersAndRoles.Count);
         }
 
     }
