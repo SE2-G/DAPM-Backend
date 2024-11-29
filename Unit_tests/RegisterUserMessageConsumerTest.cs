@@ -22,13 +22,17 @@ namespace Unit_tests
         RegisterUserMessage source;
         User dest;
 
-        RegisterUserResultMessage result;
+        RegisterUserResultMessage result = null;
+
+        List<User> users = new List<User>();
 
         Guid ticketId = Guid.NewGuid();
 
         [SetUp]
         public void Setup()
         {
+
+            users = new List<User>();
             Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
             source = new RegisterUserMessage
@@ -51,26 +55,29 @@ namespace Unit_tests
                 OrganizationName = "Test",
             };
 
-            result = new RegisterUserResultMessage
-            {
-                TimeToLive = TimeSpan.FromMinutes(1),
-                TicketId = ticketId,
-                Message = "",
-                Succeeded = true
-            };
 
             _mockMapper.Setup(mapper => mapper.Map<User>(source)).Returns(dest);
 
 
             Mock<IUserRepository> _mockUserRepo = new Mock<IUserRepository>();
-
             _mockUserRepo.Setup(repo => repo.UserExists(It.IsAny<string>())).Returns(true);
             _mockUserRepo.Setup(repo => repo.SaveChanges(It.IsAny<User>())).Returns(1);
 
 
             Mock<IUserManagerWrapper> _mockusermanager = new Mock<IUserManagerWrapper>();
             //TODO setup for usermanager
-            _mockusermanager.Setup(userman => userman.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
+            _mockusermanager.Setup(userman => userman.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(
+               (User user, string pass) => {
+
+                    users.Add(user);
+                    return Task.FromResult(IdentityResult.Success);
+                }
+              );
+
+            _mockusermanager.Setup(usermanager => usermanager.FindByNameAsync(It.IsAny<string>()))
+                .Returns((string input) => Task.FromResult(users.FirstOrDefault(x => x.UserName.Equals(input, StringComparison.OrdinalIgnoreCase))));
+
+
             _mockusermanager.Setup(userman => userman.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
 
 
@@ -86,7 +93,8 @@ namespace Unit_tests
             });
 
             Mock<IQueueProducer<RegisterUserResultMessage>> _mockqueueu = new Mock<IQueueProducer<RegisterUserResultMessage>>();
-            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<RegisterUserResultMessage>()));
+            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<RegisterUserResultMessage>()))
+                    .Callback<RegisterUserResultMessage>(v => result = v);
 
 
 
@@ -106,7 +114,28 @@ namespace Unit_tests
         [Test]
         public async Task RegisterUserTest()
         {
+            Assert.True(users.Count == 0);
             await registerconsumer.ConsumeAsync(source);
+
+            Assert.True(result != null);
+            Assert.True(result.Message == "Okily dokily");
+            Assert.True(users.Count == 1);
+
+        }
+
+        [Test]
+        public async Task RegisterSameUserTwice()
+        {
+            Assert.True(users.Count == 0);
+            await registerconsumer.ConsumeAsync(source);
+
+            Assert.True(result != null);
+            Assert.True(result.Message == "Okily dokily");
+            Assert.True(users.Count == 1);
+
+            await registerconsumer.ConsumeAsync(source);
+            Assert.True(result.Message == "Username is already in use");
+            Assert.True(users.Count == 1);
 
         }
     }

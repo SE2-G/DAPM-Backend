@@ -2,6 +2,7 @@
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using DAPM.Authenticator.Models;
 using Moq;
+using Newtonsoft.Json;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using RabbitMQLibrary.Messages.Authenticator.RoleManagement;
@@ -53,6 +54,11 @@ namespace Unit_tests
             await consumer.ConsumeAsync(message);
 
             Assert.True(result != null);
+            var template = new[] { new { RoleName = string.Empty } };
+            var rolesreturned = JsonConvert.DeserializeAnonymousType(result.Message, template);
+
+            Assert.True(rolesreturned.Length == roles.Count);
+
 
             //TODO deserialize and inspect message contents
 

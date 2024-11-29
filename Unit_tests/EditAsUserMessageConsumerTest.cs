@@ -19,7 +19,7 @@ namespace Unit_tests
     {
         List<string> allroles = new List<string>() { "Standard", "Admin", "Privileged" };
         EditAsUserMessageConsumer consumer;
-        EditAsUserMessage message = new EditAsUserMessage
+        EditAsUserMessage messageChangeUsername = new EditAsUserMessage
         {
             MessageId = Guid.NewGuid(),
             TicketId = Guid.NewGuid(),
@@ -30,8 +30,25 @@ namespace Unit_tests
             NewPassword = "",
             Roles = new List<string> { "Standard" }
         };
+        EditAsUserMessage messageChangeRoles = new EditAsUserMessage
+        {
+            MessageId = Guid.NewGuid(),
+            TicketId = Guid.NewGuid(),
+            TimeToLive = TimeSpan.FromSeconds(1),
+            Id = 5,
+            FullName = "Jimbob",
+            UserName = "johnny",
+            NewPassword = "",
+            Roles = new List<string> { "Admin", "Standard" }
+        };
 
-        List<(User, List<Role>, string)> usersRolesAndPasswords = new List<(User, List<Role>, string)> {
+        List<(User, List<Role>, string)> usersRolesAndPasswords;
+
+        EditAsUserResultMessage result = null;
+
+        [SetUp]
+        public void Setup() {
+            usersRolesAndPasswords = new List<(User, List<Role>, string)> {
              (
                 new User {
                 FullName = "Jimbob",
@@ -41,12 +58,9 @@ namespace Unit_tests
                 new List<Role>(){new Role{Name= "Standard"} },
                 "passW1")};
 
-
-
-        [SetUp]
-        public void Setup() {
             Mock<IQueueProducer<EditAsUserResultMessage>> _mockqueueu = new Mock<IQueueProducer<EditAsUserResultMessage>>();
-            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<EditAsUserResultMessage>()));
+            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<EditAsUserResultMessage>()))
+                .Callback<EditAsUserResultMessage>(r => result = r);
 
             Mock<IUserManagerWrapper> _mockusermanager = new Mock<IUserManagerWrapper>();
             _mockusermanager.Setup(usermanager => usermanager.FindByIdAsync(It.IsAny<string>()))
@@ -66,6 +80,18 @@ namespace Unit_tests
                     return Task.FromResult(IdentityResult.Success);
                 }
               );
+
+
+            _mockusermanager.Setup(usermanager => usermanager.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>())).Returns(
+               (User userinput, string roleinput) => {
+                   (User, List<Role>, string) user = usersRolesAndPasswords.FirstOrDefault(x => x.Item1.Id == userinput.Id);
+
+                   if (!(user.Item2.Any(x => x.Name == roleinput)))
+                       user.Item2.Add(new Role { Name = roleinput });
+                   return Task.FromResult(IdentityResult.Success);
+               }
+             );
+
 
             _mockusermanager.Setup(usermanager => usermanager.RemovePasswordAsync(It.IsAny<User>())).Returns(
                 (User userinput) => {
@@ -100,8 +126,21 @@ namespace Unit_tests
         }
 
         [Test]
-        public async Task EditUserTestAsUser() {
-            await consumer.ConsumeAsync(message);
+        public async Task EditUserTestAsUserChangeUsername()
+        {
+            Assert.True(usersRolesAndPasswords[0].Item1.UserName != messageChangeUsername.UserName);
+            await consumer.ConsumeAsync(messageChangeUsername);
+            Assert.True(usersRolesAndPasswords[0].Item1.UserName == messageChangeUsername.UserName);
+        }
+
+
+        [Test]
+        public async Task EditUserTestAsUserhangeRoles()
+        {
+            Assert.True(usersRolesAndPasswords[0].Item2.Count != messageChangeRoles.Roles.Count);
+            await consumer.ConsumeAsync(messageChangeRoles);
+            //Users should not be able to edit roles
+            Assert.True(usersRolesAndPasswords[0].Item2.Count != messageChangeRoles.Roles.Count);
         }
 
     }
