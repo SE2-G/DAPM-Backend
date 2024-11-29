@@ -21,11 +21,7 @@ namespace Unit_tests
     public class DeleteUserMessagerConsumerTest
     {
         DeleteUserMessageConsumer consumer;
-        List<User> users = new List<User>() { new User {
-            FullName = "Jimbob",
-            PasswordHash = "",
-            Id = 5,
-            UserName = "johnny" } };
+        List<User> users;
 
 
         DeleteUserMessage message = new DeleteUserMessage()
@@ -36,11 +32,31 @@ namespace Unit_tests
             UserName = "johnny"
         };
 
+        DeleteUserMessage message2 = new DeleteUserMessage()
+        {
+            MessageId = Guid.NewGuid(),
+            TicketId = Guid.NewGuid(),
+            TimeToLive = TimeSpan.FromMinutes(1),
+            UserName = "johnny2"
+        };
+
+        DeleteUserResultMessage result;
+
         [SetUp]
         public void Setup() {
 
+            result = null;
+
+            users = new List<User>() { new User {
+            FullName = "Jimbob",
+            PasswordHash = "",
+            Id = 5,
+            UserName = "johnny" } };
+
             Mock<IQueueProducer<DeleteUserResultMessage>> _mockqueueu = new Mock<IQueueProducer<DeleteUserResultMessage>>();
-            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<DeleteUserResultMessage>()));
+            _mockqueueu.Setup(queue => queue.PublishMessage(It.IsAny<DeleteUserResultMessage>()))
+                .Callback<DeleteUserResultMessage>(r => result = r);
+                
 
 
             Mock<IUserManagerWrapper> _mockusermanager = new Mock<IUserManagerWrapper>();
@@ -64,7 +80,21 @@ namespace Unit_tests
         [Test]
         public async Task DeleteUserTest() {
 
+            int amountOfUsers = users.Count;
             await consumer.ConsumeAsync(message);
+            Assert.True(users.Count == amountOfUsers - 1);
+            Assert.True(result != null);
+            Assert.True(result.Message == "User succesfully deleted");
+        }
+
+        [Test]
+        public async Task DeleteUserThatDoesntExist()
+        {
+            int amountOfUsers = users.Count;
+            await consumer.ConsumeAsync(message2);
+            Assert.True(users.Count == amountOfUsers);
+            Assert.True(result != null);
+            Assert.True(result.Message == "This user does not exist in our system, therefore cannot be deleted");
         }
 
 
