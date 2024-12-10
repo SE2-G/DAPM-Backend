@@ -37,5 +37,32 @@ namespace DAPM.ClientApi.Services
             }
         }
 
+      public async Task<Stream> DownloadActivityLogAsync()
+{
+    try
+    {
+        if (!File.Exists(_logFilePath))
+        {
+            throw new FileNotFoundException("Activity log file not found.");
+        }
+
+        // Prepare the memory stream
+        var memoryStream = new MemoryStream();
+        await using (var fileStream = new FileStream(_logFilePath, FileMode.Open, FileAccess.Read))
+        {
+            await fileStream.CopyToAsync(memoryStream);
+        }
+
+        memoryStream.Position = 0; 
+        _logger.LogInformation("Activity log file successfully prepared for download.");
+        return memoryStream;
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError($"Error preparing activity log for download: {ex.Message}");
+        throw;
+    }
+}
+
     }
 }

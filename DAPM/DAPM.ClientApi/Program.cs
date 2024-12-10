@@ -95,7 +95,6 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IAuthenticatorService, AuthenticatorService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 builder.Services.AddSingleton(new FileLogService(Path.Combine(AppContext.BaseDirectory, "Logs", "ActivityLog.txt")));
 
 builder.Services.AddControllers();

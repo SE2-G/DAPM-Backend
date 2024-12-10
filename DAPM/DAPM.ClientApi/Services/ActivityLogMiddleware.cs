@@ -1,6 +1,10 @@
 ﻿using DAPM.ClientApi.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class ActivityLogMiddleware
 {
@@ -15,8 +19,10 @@ public class ActivityLogMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        string username = "Anonymous"; // Default if no username is found
+        string username = "Anonymous"; // Default username
         string action = $"{context.Request.Method} {context.Request.Path}";
+        string ticketId = "None"; // Default TicketId
+        _logger.LogInformation("Authorization Header: {Authorization}", context.Request.Headers["Authorization"]);
 
         try
         {
@@ -25,20 +31,48 @@ public class ActivityLogMiddleware
             if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
             {
                 var token = authHeader.Substring("Bearer ".Length).Trim();
-
-                // Decode JWT token
                 var jwtHandler = new JwtSecurityTokenHandler();
+
                 if (jwtHandler.CanReadToken(token))
                 {
                     var jwtToken = jwtHandler.ReadJwtToken(token);
-                    var payload = jwtToken.Payload;
 
-                    // Extract the username claim (replace "name" with the actual claim key)
-                    if (payload.TryGetValue("name", out var name))
-                    {
-                        username = name?.ToString() ?? "Unknown";
-                    }
+                    // Extract 'name' claim as username
+                    username = jwtToken.Claims.FirstOrDefault(c => c.Type == "name")?.Value ?? "Unknown";
+                    _logger.LogInformation($"Extracted Username from Token: {username}");
                 }
+            }
+
+            // Extract TicketId from query or headers
+            ticketId = context.Request.Query["ticketId"].FirstOrDefault() ??
+                       context.Request.Headers["ticketId"].FirstOrDefault() ??
+                       "None";
+
+            _logger.LogInformation($"Raw TicketId from Request: {ticketId}");
+
+            //// If username is still "Anonymous", try resolving from TicketId
+            //if (username == "Anonymous" && Guid.TryParse(ticketId, out var parsedTicketId))
+            //{
+            //    var ticketService = context.RequestServices.GetService<ITicketService>();
+            //    if (ticketService != null)
+            //    {
+            //        username = ticketService.GetUsernameByTicket(parsedTicketId) ?? "Unknown";
+            //        _logger.LogInformation($"Extracted Username from TicketId: {username}");
+            //    }
+            //}
+
+            // Fallback to User.Identity.Name if still "Anonymous"
+            if (username == "Anonymous" && context.User.Identity != null && context.User.Identity.IsAuthenticated)
+            {
+                username = context.User.Identity.Name ?? "Unknown";
+                _logger.LogInformation($"Extracted Username from Identity: {username}");
+            }
+
+            // Skip logging for the 'status' endpoint
+            if (context.Request.Path.StartsWithSegments("/status", StringComparison.OrdinalIgnoreCase))
+            {
+                await _next(context); // Skip further processing for this middleware
+                return;
             }
 
             // Call the next middleware in the pipeline
@@ -54,9 +88,13 @@ public class ActivityLogMiddleware
                 _ => "Failed"
             };
 
-            // Log the activity
+            // Log the activity with TicketId
             var activityLogService = context.RequestServices.GetService<IActivityLogService>();
-            await activityLogService?.LogUserActivity(username, action, result, DateTime.UtcNow);
+            if (activityLogService != null)
+            {
+                string detailedAction = $"{action})"; // Include TicketId in the action
+                await activityLogService.LogUserActivity(username, detailedAction, result, DateTime.UtcNow);
+            }
         }
         catch (Exception ex)
         {

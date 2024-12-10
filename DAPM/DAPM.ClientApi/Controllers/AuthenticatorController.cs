@@ -87,11 +87,11 @@ namespace DAPM.ClientApi.Controllers
             Guid ticketId = _authenticatorService.Login(loginDto); 
             bool isSuccess = ticketId != Guid.Empty;
 
-            if (isSuccess)
-            {
-                // Store the username with the ticket ID
-                _ticketService.StoreTicket(ticketId, loginDto.UserName);
-            }
+            //if (isSuccess)
+            //{
+            //    // Store the username with the ticket ID
+            //    _ticketService.StoreTicket(ticketId, loginDto.UserName);
+            //}
 
             return Ok(new ApiResponse
             {

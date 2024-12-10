@@ -25,7 +25,7 @@ namespace DAPM.ClientApi.Services
         private Dictionary<Guid, TicketStatus> _ticketStatus;
         private Dictionary<Guid, TicketResolutionType> _ticketResolutionType;
 
-        public TicketService(ILogger<ITicketService> logger) 
+        public TicketService(ILogger<ITicketService> logger)
         {
             _logger = logger;
             _ticketStatus = new Dictionary<Guid, TicketStatus>();
@@ -71,7 +71,7 @@ namespace DAPM.ClientApi.Services
 
         public void UpdateTicketStatus(Guid ticketId, TicketStatus ticketStatus)
         {
-            if(_ticketStatus.ContainsKey(ticketId))
+            if (_ticketStatus.ContainsKey(ticketId))
             {
                 _ticketStatus[ticketId] = ticketStatus;
             }
@@ -108,7 +108,7 @@ namespace DAPM.ClientApi.Services
 
         public void UpdateTicketResolution(Guid ticketId, JToken requestResult)
         {
-            if(_ticketStatus.ContainsKey(ticketId))
+            if (_ticketStatus.ContainsKey(ticketId))
             {
                 UpdateTicketStatus(ticketId, TicketStatus.Completed);
                 _ticketResolutions[ticketId] = requestResult;
@@ -119,17 +119,6 @@ namespace DAPM.ClientApi.Services
                 return;
             }
             _logger.LogInformation($"Ticket resolution of ticket {ticketId} has been updated");
-        }
-        private readonly Dictionary<Guid, string> _ticketStore = new(); // Store ticketId and username
-
-        public void StoreTicket(Guid ticketId, string userName)
-        {
-            _ticketStore[ticketId] = userName;
-        }
-
-        public string GetUsernameByTicket(Guid ticketId)
-        {
-            return _ticketStore.TryGetValue(ticketId, out var userName) ? userName : "Unknown";
         }
     }
 }

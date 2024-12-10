@@ -15,36 +15,21 @@ namespace DAPM.ClientApi.Controllers
     {
         private readonly ILogger<StatusController> _logger;
         private readonly ITicketService _ticketService;
-        private readonly IActivityLogService _activityLogService;
 
-        public StatusController(
-            ILogger<StatusController> logger,
-            ITicketService ticketService,
-            IActivityLogService activityLogService)
+        public StatusController(ILogger<StatusController> logger, ITicketService ticketService)
         {
             _logger = logger;
             _ticketService = ticketService;
-            _activityLogService = activityLogService;
         }
 
-        [HttpGet("{ticketId}")]
+        [HttpGet(("{ticketId}"))]
         [SwaggerOperation(Description = "Gets the status of a ticket defined by its id. If the ticket is resolved, it will return the resolution.")]
         public async Task<IActionResult> Get(Guid ticketId)
         {
-            _logger.LogInformation($"Received request for TicketId: {ticketId}");
-
-            string userName = _ticketService.GetUsernameByTicket(ticketId);
 
             TicketResolutionType resolutionType = _ticketService.GetTicketResolutionType(ticketId);
-            JToken resolutionJSON = _ticketService.GetTicketResolution(ticketId);
 
-            string result = (bool)resolutionJSON["result"]["succeeded"] == true ? "Success" : "Failed";
-            await _activityLogService.LogUserActivity(
-                userName: userName,
-                action: "Check Ticket Status",
-                result: result,
-                timestamp: DateTime.UtcNow
-            );
+            JToken resolutionJSON = _ticketService.GetTicketResolution(ticketId);
 
             if (resolutionType == TicketResolutionType.Json || (int)resolutionJSON["status"] != 1)
             {
@@ -53,20 +38,13 @@ namespace DAPM.ClientApi.Controllers
             }
             else
             {
-                var filePath = resolutionJSON["result"]?["filePath"]?.ToString();
-                var fileName = resolutionJSON["result"]?["fileName"]?.ToString();
-                var fileFormat = resolutionJSON["result"]?["fileFormat"]?.ToString();
-
-                if (string.IsNullOrEmpty(filePath) || string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(fileFormat))
-                {
-                    return BadRequest("Invalid resolution file details.");
-                }
-
+                var filePath = resolutionJSON["result"]["filePath"].ToString();
+                var fileName = resolutionJSON["result"]["fileName"].ToString();
+                var fileFormat = resolutionJSON["result"]["fileFormat"].ToString();
                 var fileContent = await System.IO.File.ReadAllBytesAsync(filePath);
+
                 return File(fileContent, "application/octet-stream", fileName + fileFormat);
             }
         }
-
-
     }
 }

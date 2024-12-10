@@ -126,7 +126,7 @@ namespace DAPM.Authenticator
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+          
 
             app.MapControllers();
 
