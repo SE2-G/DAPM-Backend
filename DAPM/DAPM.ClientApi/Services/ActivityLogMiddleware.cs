@@ -1,9 +1,12 @@
-﻿using DAPM.ClientApi.Services.Interfaces;
+﻿
+
+using DAPM.ClientApi.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 public class ActivityLogMiddleware
@@ -22,7 +25,13 @@ public class ActivityLogMiddleware
         string username = "Anonymous"; // Default username
         string action = $"{context.Request.Method} {context.Request.Path}";
         string ticketId = "None"; // Default TicketId
+
+        // Retrieve Client IP Address
+        string clientIp = GetClientIpAddress(context);
+
+        // Log Authorization Header and Client IP
         _logger.LogInformation("Authorization Header: {Authorization}", context.Request.Headers["Authorization"]);
+        _logger.LogInformation("Client IP: {ClientIP}", clientIp);
 
         try
         {
@@ -50,17 +59,6 @@ public class ActivityLogMiddleware
 
             _logger.LogInformation($"Raw TicketId from Request: {ticketId}");
 
-            //// If username is still "Anonymous", try resolving from TicketId
-            //if (username == "Anonymous" && Guid.TryParse(ticketId, out var parsedTicketId))
-            //{
-            //    var ticketService = context.RequestServices.GetService<ITicketService>();
-            //    if (ticketService != null)
-            //    {
-            //        username = ticketService.GetUsernameByTicket(parsedTicketId) ?? "Unknown";
-            //        _logger.LogInformation($"Extracted Username from TicketId: {username}");
-            //    }
-            //}
-
             // Fallback to User.Identity.Name if still "Anonymous"
             if (username == "Anonymous" && context.User.Identity != null && context.User.Identity.IsAuthenticated)
             {
@@ -69,13 +67,13 @@ public class ActivityLogMiddleware
             }
 
             // Skip logging for the 'status' endpoint
-            if (context.Request.Path.StartsWithSegments("/status", StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.StartsWithSegments("/status", System.StringComparison.OrdinalIgnoreCase))
             {
                 await _next(context); // Skip further processing for this middleware
                 return;
             }
 
-            // Call the next middleware in the pipeline
+            // Proceed to the next middleware
             await _next(context);
 
             // Determine the result based on the HTTP response status code
@@ -88,12 +86,12 @@ public class ActivityLogMiddleware
                 _ => "Failed"
             };
 
-            // Log the activity with TicketId
+            // Log the activity with Client IP 
             var activityLogService = context.RequestServices.GetService<IActivityLogService>();
             if (activityLogService != null)
             {
-                string detailedAction = $"{action})"; // Include TicketId in the action
-                await activityLogService.LogUserActivity(username, detailedAction, result, DateTime.UtcNow);
+                string detailedAction = $"{action}";
+                await activityLogService.LogUserActivity(username, detailedAction, result, DateTime.UtcNow, clientIp);
             }
         }
         catch (Exception ex)
@@ -101,5 +99,28 @@ public class ActivityLogMiddleware
             _logger.LogError($"Error in ActivityLogMiddleware: {ex.Message}");
             throw; // Re-throw the exception to avoid swallowing it
         }
+    }
+
+    /// <summary>
+    /// Extracts and processes the client's IP address, handling IPv4-mapped IPv6 addresses.
+    /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>The client's IPv4 address as a string.</returns>
+    private string GetClientIpAddress(HttpContext context)
+    {
+        var remoteIpAddress = context.Connection.RemoteIpAddress;
+
+        if (remoteIpAddress == null)
+            return "Unknown";
+
+        // Check if the IP is IPv4-mapped IPv6 and extract the IPv4 address
+        if (remoteIpAddress.IsIPv4MappedToIPv6)
+        {
+            var ipv4 = remoteIpAddress.MapToIPv4().ToString();
+            _logger.LogInformation($"Converted IPv6-mapped IPv4 to IPv4: {ipv4}");
+            return ipv4;
+        }
+
+        return remoteIpAddress.ToString();
     }
 }
