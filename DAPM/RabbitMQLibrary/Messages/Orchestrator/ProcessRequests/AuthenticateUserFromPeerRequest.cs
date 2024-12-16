@@ -11,7 +11,7 @@ namespace RabbitMQLibrary.Messages.Orchestrator.ProcessRequests
     public class AuthenticateUserFromPeerRequest : IQueueMessage
     {
         public Guid MessageId { get; set; }
-        public Guid SenderProcessId { get; set; }
+        public Guid TicketId { get; set; }
         public TimeSpan TimeToLive { get; set; }
 
         public IdentityDTO SenderPeerIdentity { get; set; }

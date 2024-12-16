@@ -1,6 +1,7 @@
 ﻿using DAPM.Orchestrator.Processes;
 using DAPM.Orchestrator.Services;
 using DAPM.Orchestrator.Services.Models;
+using RabbitMQLibrary.Messages.ClientApi;
 using RabbitMQLibrary.Messages.Orchestrator.Other;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromOperator;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromPeerApi;
@@ -172,6 +173,11 @@ namespace DAPM.Orchestrator
         }
 
         public virtual void OnGetPipelineExecutionStatusResult(GetPipelineExecutionStatusResultMessage message)
+        {
+            return;
+        }
+
+        public virtual void OnPeerAuthenticateResult(PeerAuthenticateResultMessage message)
         {
             return;
         }

@@ -1,27 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\AIProjects\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {}
+    "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {}
   },
   "projects": {
-    "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
+    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
+        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
         "projectName": "DAPM.Authenticator",
-        "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\obj\\",
+        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
+        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
+        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -35,14 +29,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
-                "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj"
+              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
+                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj"
               },
-              "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
-                "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj"
+              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
+                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj"
               },
-              "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
-                "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj"
+              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
+                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj"
               }
             }
           }
@@ -140,28 +134,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
+    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
+        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
         "projectName": "DAPM.ServiceDefaults",
-        "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\obj\\",
+        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
+        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
+        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -248,28 +236,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
+    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
+        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
         "projectName": "RabbitMQLibrary",
-        "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\obj\\",
+        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
+        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
+        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -333,28 +315,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
+    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
+        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
         "projectName": "UtilLibrary",
-        "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\UtilLibrary\\obj\\",
+        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
+        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
+        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -418,28 +394,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\AIProjects\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {
+    "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AIProjects\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
+        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
         "projectName": "Unit_tests",
-        "projectPath": "C:\\AIProjects\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
-        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
-        "outputPath": "C:\\AIProjects\\DAPM-Backend\\Unit_tests\\obj\\",
+        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
+        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
+        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -453,8 +423,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
-                "projectPath": "C:\\AIProjects\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj"
+              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
+                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj"
               }
             }
           }
@@ -515,7 +485,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

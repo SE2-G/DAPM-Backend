@@ -47,35 +47,9 @@ namespace DAPM.PeerApi.Controllers
                 return BadRequest("payload empty");
             }
 
-            _peerUserService.OnAuthenticateRequestResponse(authDto.AuthenticationId, authDto.SenderIdentity, authDto.PassToken, authDto.IsAuthenticated);
+            _peerUserService.OnAuthenticateRequestResponse(authDto.AuthenticationId, authDto.SenderIdentity, authDto.SessionToken, authDto.IsAuthenticated);
 
             return Ok("Authenticate request received");
-        }
-
-        [HttpPut("inviteUser/{username}")]
-        public async Task<ActionResult<Guid>> InviteUser([FromBody] InviteUserDto userDto)
-        {
-            if (userDto == null)
-            {
-                return BadRequest("payload empty");
-            }
-
-            _peerUserService.OnInviteUserRequest(userDto.InviteUserId, userDto.SenderIdentity, userDto.UserName);
-
-            return Ok("Invite user request received");
-        }
-
-        [HttpPut("inviteUser/{username}-respone")]
-        public async Task<ActionResult<Guid>> InviteUserResponse([FromBody] InviteUserResponseDto userDto)
-        {
-            if (userDto == null)
-            {
-                return BadRequest("payload empty");
-            }
-
-            _peerUserService.OnInviteUserRequestResponse(userDto.InviteUserId, userDto.SenderIdentity, userDto.IsAccepted);
-
-            return Ok("Invite user request received");
         }
     }
 }

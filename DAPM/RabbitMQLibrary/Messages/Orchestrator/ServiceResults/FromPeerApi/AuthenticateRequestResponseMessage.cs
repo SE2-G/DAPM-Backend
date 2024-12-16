@@ -16,6 +16,7 @@ namespace RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromPeerApi
 
         public IdentityDTO SenderPeerIdentity { get; set; }
 
+        public string UserName { get; set; }
         public string Passtoken { get; set; }
         public bool IsAuthenticated { get; set; }
     }
