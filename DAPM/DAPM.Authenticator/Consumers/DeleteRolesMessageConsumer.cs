@@ -30,9 +30,9 @@ namespace DAPM.Authenticator.Consumers
                 
                 foreach (var role in message.Roles)
                 {
-                    if(role == "Admin")
+                    if(role == "Admin" || role == "Standard")
                     {
-                        result += "Admin role cannot be deleted.\n";
+                        result += role + " role cannot be deleted.\n";
                     }
                     else if (await _rolemanager.RoleExistsAsync(role))
                     {
