@@ -26,16 +26,28 @@ namespace DAPM.Authenticator.Consumers
         {
             try
             {
+                string result = "";
+                
                 foreach (var role in message.Roles)
                 {
-                    await _rolemanager.CreateAsync(new Role { Name = role });
+                    var r = await _rolemanager.CreateAsync(new Role { Name = role });
+
+                    if (r.Succeeded)
+                    {
+                        result += "Added role \"" + role + "\".\n";
+                    }
+                    else
+                    {
+                        result += "Couldn't add role \"" + role + "\". Does it already exist?\n";
+                    }
                 }
 
                 var addRolesResultMessage = new AddRolesResultMessage
                 {
                     TimeToLive = TimeSpan.FromMinutes(1),
+                    TicketId = message.TicketId,
                     Succeeded = true,
-                    Message = "Added the roles"
+                    Message = result
                 };
 
                 _addRolesResultProducer.PublishMessage(addRolesResultMessage);
@@ -45,6 +57,7 @@ namespace DAPM.Authenticator.Consumers
                 var addRolesResultMessage = new AddRolesResultMessage
                 {
                     TimeToLive = TimeSpan.FromMinutes(1),
+                    TicketId = message.TicketId,
                     Succeeded = false,
                     Message = ex.Message
                 };

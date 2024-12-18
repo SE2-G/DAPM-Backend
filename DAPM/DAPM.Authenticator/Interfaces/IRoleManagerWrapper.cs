@@ -8,6 +8,8 @@ namespace DAPM.Authenticator.Interfaces
     {
         Task<IdentityResult> CreateAsync(Role role);
 
+        Task<IdentityResult> DeleteAsync(Role role);
+
         Task<bool> RoleExistsAsync(string role);
 
         Task<Role> FindByNameAsync(string role);
