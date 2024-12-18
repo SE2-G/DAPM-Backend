@@ -10,17 +10,22 @@ using UtilLibrary;
 using AutoMapper;
 using DAPM.Authenticator.Interfaces.Repostory_Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator.Consumers
 {
     public class GetUsersMessageConsumer : IQueueConsumer<GetUsersMessage>
     {
-        private readonly UserManager<User> _usermanager;
+        private readonly IUserManagerWrapper _usermanager;
         private readonly IUserRepository _userrepository;
         private readonly IMapper _mapper;
         private readonly IQueueProducer<GetUsersResultMessage> _getUsersResultMessageProducer;
 
-        public GetUsersMessageConsumer(UserManager<User> userManager, IUserRepository userRepository, IMapper mapper, IQueueProducer<GetUsersResultMessage> getUsersResultMessageProducer)
+        public GetUsersMessageConsumer(
+            IUserManagerWrapper userManager, 
+            IUserRepository userRepository, 
+            IMapper mapper, 
+            IQueueProducer<GetUsersResultMessage> getUsersResultMessageProducer)
         {
             _usermanager = userManager;
             _userrepository = userRepository;

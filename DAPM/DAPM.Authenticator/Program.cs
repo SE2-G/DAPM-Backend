@@ -25,6 +25,7 @@ using RabbitMQLibrary.Messages.Orchestrator.ServiceResults;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using RabbitMQLibrary.Messages.Authenticator.RoleManagement;
 using RabbitMQLibrary.Messages.Authenticator.UserManagement;
+using DAPM.Authenticator.Interfaces;
 
 namespace DAPM.Authenticator
 {
@@ -73,12 +74,18 @@ namespace DAPM.Authenticator
                     };
                 });
 
-            builder.Services.AddScoped<TokenService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+            //wrappers needed for testing
+            builder.Services.AddScoped<IUserManagerWrapper, UserManagerWrapper>();
+            builder.Services.AddScoped<IRoleManagerWrapper, RoleManagerWrapper>();
+
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins",
