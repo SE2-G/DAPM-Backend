@@ -101,11 +101,7 @@ public class ActivityLogMiddleware
         }
     }
 
-    /// <summary>
-    /// Extracts and processes the client's IP address, handling IPv4-mapped IPv6 addresses.
-    /// </summary>
-    /// <param name="context">The current HTTP context.</param>
-    /// <returns>The client's IPv4 address as a string.</returns>
+
     private string GetClientIpAddress(HttpContext context)
     {
         var remoteIpAddress = context.Connection.RemoteIpAddress;
