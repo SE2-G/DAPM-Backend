@@ -1,20 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {}
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\Unit_tests.csproj": {}
   },
   "projects": {
-    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
+        "projectUniqueName": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
         "projectName": "DAPM.Authenticator",
-        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
-        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
-        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\obj\\",
+        "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj",
+        "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,21 +23,20 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
-                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj"
+              "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
+                "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj"
               },
-              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
-                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj"
+              "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
+                "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj"
               },
-              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
-                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj"
+              "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
+                "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\UtilLibrary.csproj"
               }
             }
           }
@@ -45,11 +45,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -134,21 +129,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
+        "projectUniqueName": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
         "projectName": "DAPM.ServiceDefaults",
-        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
-        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
-        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.ServiceDefaults\\obj\\",
+        "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\DAPM.ServiceDefaults.csproj",
+        "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -156,7 +152,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -169,11 +164,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -236,21 +226,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
         "projectName": "RabbitMQLibrary",
-        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
-        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
-        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\RabbitMQLibrary\\obj\\",
+        "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\RabbitMQLibrary.csproj",
+        "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -258,7 +249,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -271,11 +261,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -315,21 +300,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\UtilLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
         "projectName": "UtilLibrary",
-        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
-        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
-        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\UtilLibrary\\obj\\",
+        "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\UtilLibrary.csproj",
+        "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -337,7 +323,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -350,11 +335,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -394,21 +374,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj": {
+    "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\Unit_tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
+        "projectUniqueName": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\Unit_tests.csproj",
         "projectName": "Unit_tests",
-        "projectPath": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\Unit_tests.csproj",
-        "packagesPath": "C:\\Users\\Perry02\\.nuget\\packages\\",
-        "outputPath": "C:\\GitRepositories\\DAPM-Backend\\Unit_tests\\obj\\",
+        "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\Unit_tests.csproj",
+        "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Perry02\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -416,15 +397,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
-                "projectPath": "C:\\GitRepositories\\DAPM-Backend\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj"
+              "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj": {
+                "projectPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\DAPM.Authenticator.csproj"
               }
             }
           }
@@ -433,11 +413,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -485,7 +460,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
