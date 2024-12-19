@@ -65,6 +65,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddQueueMessageConsumer<RegisterUserResultConsumer, RegisterUserResultMessage>();
 builder.Services.AddQueueMessageConsumer<LoginResultConsumer, LoginResultMessage>();
 builder.Services.AddQueueMessageConsumer<AddRolesResultConsumer, AddRolesResultMessage>();
+builder.Services.AddQueueMessageConsumer<DeleteRolesResultConsumer, DeleteRolesResultMessage>();
 builder.Services.AddQueueMessageConsumer<DeleteUserResultConsumer, DeleteUserResultMessage>();
 builder.Services.AddQueueMessageConsumer<EditAsAdminResultConsumer, EditAsAdminResultMessage>();
 builder.Services.AddQueueMessageConsumer<EditAsUserResultConsumer, EditAsUserResultMessage>();

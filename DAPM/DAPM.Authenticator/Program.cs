@@ -113,6 +113,8 @@ namespace DAPM.Authenticator
             builder.Services.AddQueueMessageConsumer<RegisterUserMessageConsumer, RegisterUserMessage>();
             builder.Services.AddQueueMessageConsumer<SetOrganizationMessageConsumer, SetOrganizationMessage>();
             builder.Services.AddQueueMessageConsumer<SetRolesMessageConsumer, SetRolesMessage>();
+            builder.Services.AddQueueMessageConsumer<AddRolesMessageConsumer, AddRolesMessage>();
+            builder.Services.AddQueueMessageConsumer<DeleteRolesMessageConsumer, DeleteRolesMessage>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
