@@ -1,4 +1,6 @@
-﻿using DAPM.Authenticator.Consumers;
+﻿// Author: s205135
+
+using DAPM.Authenticator.Consumers;
 using DAPM.Authenticator.Interfaces;
 using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;

@@ -1,4 +1,7 @@
-﻿using DAPM.ClientApi.Services.Interfaces;
+﻿// Author: s224755
+// Author: s224753
+
+using DAPM.ClientApi.Services.Interfaces;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using RabbitMQLibrary.Messages.Authenticator.RoleManagement;

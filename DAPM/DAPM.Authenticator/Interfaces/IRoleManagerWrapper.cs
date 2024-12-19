@@ -1,4 +1,6 @@
-﻿using DAPM.Authenticator.Models;
+﻿// Author: s205135
+
+using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 

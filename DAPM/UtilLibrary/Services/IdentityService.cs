@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿// Author: s205135
+
+using Microsoft.Extensions.DependencyInjection;
 //using RabbitMQLibrary.Interfaces;
 //using RabbitMQLibrary.Messages.Repository;
 //using RabbitMQLibrary.Messages.ResourceRegistry;

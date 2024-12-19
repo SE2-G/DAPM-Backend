@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿// Author: s205135
+
+using AutoMapper;
 using Castle.Core.Logging;
 using DAPM.Authenticator.Consumers;
 using DAPM.Authenticator.Interfaces;

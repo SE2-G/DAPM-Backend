@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿// Author: s205135
+
+using System.IdentityModel.Tokens.Jwt;
 namespace UtilLibrary
 {
     //to make sure the token generator and token users can reference the same claims

@@ -1,4 +1,7 @@
-﻿using RabbitMQLibrary.Interfaces;
+﻿// Author: s205135
+// Author: s224755
+
+using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;

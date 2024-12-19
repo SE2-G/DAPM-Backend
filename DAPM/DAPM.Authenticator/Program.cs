@@ -1,3 +1,5 @@
+// Author: s224755
+// Author: s205135
 
 using AutoMapper;
 using DAPM.Authenticator.Data;

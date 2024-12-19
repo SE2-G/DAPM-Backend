@@ -1,4 +1,6 @@
-﻿using RabbitMQLibrary.Interfaces;
+﻿// Author: s224753
+
+using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Models;
 
 namespace RabbitMQLibrary.Messages.ClientApi

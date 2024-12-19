@@ -1,4 +1,6 @@
-﻿using DAPM.ClientApi.Services.Interfaces;
+﻿// Author: s191446
+
+using DAPM.ClientApi.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;

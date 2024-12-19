@@ -1,4 +1,9 @@
-﻿using DAPM.Authenticator.Data;
+﻿// Author: s224755
+// Author: s224753
+// Author: s191446
+// Author: s205135
+
+using DAPM.Authenticator.Data;
 using DAPM.ClientApi.Models;
 using DAPM.ClientApi.Services;
 using DAPM.ClientApi.Services.Interfaces;
