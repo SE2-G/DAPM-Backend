@@ -1,4 +1,6 @@
-﻿namespace UtilLibrary
+﻿// Author: s205135
+
+namespace UtilLibrary
 {
     public class UserDto
     {

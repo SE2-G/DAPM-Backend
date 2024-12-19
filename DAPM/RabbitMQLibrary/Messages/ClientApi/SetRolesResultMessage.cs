@@ -1,4 +1,6 @@
-﻿using RabbitMQLibrary.Interfaces;
+﻿// Author: s224755
+
+using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Models;
 
 namespace RabbitMQLibrary.Messages.Authenticator.Base

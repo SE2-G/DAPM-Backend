@@ -1,4 +1,6 @@
-﻿namespace DAPM.ClientApi.Models
+﻿// Author: s191446
+
+namespace DAPM.ClientApi.Models
 {
     public class ActivityLog
     {

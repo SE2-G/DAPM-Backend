@@ -1,4 +1,5 @@
-﻿
+﻿// Author: s205135
+
 namespace UtilLibrary
 {
     public class OrganisationsDto 

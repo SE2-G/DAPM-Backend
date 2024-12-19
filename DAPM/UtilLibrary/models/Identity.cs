@@ -1,4 +1,6 @@
-﻿namespace UtilLibrary.models
+﻿// Author: s205135
+
+namespace UtilLibrary.models
 {
     public class Identity
     {

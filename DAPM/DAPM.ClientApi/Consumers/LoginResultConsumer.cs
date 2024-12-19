@@ -1,3 +1,5 @@
+// Author: s224755
+
 using DAPM.ClientApi.Services.Interfaces;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
