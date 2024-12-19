@@ -1,4 +1,6 @@
-﻿using DAPM.Authenticator.Interfaces;
+﻿// Author: s205135
+
+using DAPM.Authenticator.Interfaces;
 using DAPM.Authenticator.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿// Author: s224755
+
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using RabbitMQLibrary.Interfaces;

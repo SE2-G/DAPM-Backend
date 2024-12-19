@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿// Author: s205135
+
+using AutoMapper;
 using DAPM.Authenticator.Models;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using UtilLibrary;
