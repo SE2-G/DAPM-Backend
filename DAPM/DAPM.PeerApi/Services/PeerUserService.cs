@@ -12,7 +12,7 @@ namespace DAPM.PeerApi.Services
         private IQueueProducer<AuthenticateRequestResponseMessage> _AuthenticateRequestResponseProducer;
 
         public PeerUserService(IQueueProducer<AuthenticateUserFromPeerRequest> AuthenticateRequestProducer, 
-            IQueueProducer<AuthenticateRequestResponseMessage> AuthenticateRequestResponseProducer,)
+            IQueueProducer<AuthenticateRequestResponseMessage> AuthenticateRequestResponseProducer)
         {
             _AuthenticateRequestProducer = AuthenticateRequestProducer;
             _AuthenticateRequestResponseProducer = AuthenticateRequestResponseProducer;

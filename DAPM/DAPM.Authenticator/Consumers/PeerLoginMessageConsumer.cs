@@ -82,6 +82,8 @@ namespace DAPM.Authenticator.Consumers
                 response.Token = token;
 
                 loginResultMessage.Succeeded = true;
+                loginResultMessage.UserName = message.UserName;
+                loginResultMessage.Passtoken = token;
                 loginResultMessage.Message = JsonConvert.SerializeObject(response);
                 _loginResultMessageProducer.PublishMessage(loginResultMessage);
             }

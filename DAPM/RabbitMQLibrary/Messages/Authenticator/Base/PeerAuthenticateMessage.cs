@@ -7,6 +7,7 @@ namespace RabbitMQLibrary.Messages.Authenticator.Base
     {
         public Guid MessageId { get; set; }
         public Guid TicketId { get; set; }
+        public Guid SenderProcessId { get; set; }
         public TimeSpan TimeToLive { get; set; }
 
         public string UserName { get; set; }

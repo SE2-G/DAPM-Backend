@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromPeerApi;
-using UtilLibrary;
-using UtilLibrary.Interfaces;
-using UtilLibrary.models;
 
 
 namespace DAPM.PeerApi.Controllers
