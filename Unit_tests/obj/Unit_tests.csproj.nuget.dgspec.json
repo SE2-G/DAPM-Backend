@@ -13,9 +13,6 @@
         "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.Authenticator\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
@@ -145,9 +142,6 @@
         "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\DAPM.ServiceDefaults\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
@@ -245,9 +239,6 @@
         "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\RabbitMQLibrary\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
@@ -322,9 +313,6 @@
         "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\DAPM\\UtilLibrary\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
@@ -399,9 +387,6 @@
         "packagesPath": "C:\\Users\\suhai\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\suhai\\source\\repos\\DAPM-Backend-G\\Unit_tests\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\suhai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",

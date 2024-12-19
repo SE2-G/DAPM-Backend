@@ -1,4 +1,5 @@
 ﻿using DAPM.PeerApi.Models.HandshakeDtos;
+using DAPM.PeerApi.Models.PeerUserDtos;
 using DAPM.PeerApi.Services.Interfaces;
 using RabbitMQLibrary.Interfaces;
 using RabbitMQLibrary.Messages.PeerApi.Handshake;
@@ -16,8 +17,21 @@ namespace DAPM.PeerApi.Consumers
 
         public async Task ConsumeAsync(SendPeerAuthenticateResponseMessage message)
         {
-            // var targetDomain = message.TargetDomain;
-            var senderIdentity = message.SenderPeerIdentity;
+            var targetDomain = message.SenderPeerIdentity.Domain;
+
+
+            var authenticationResponseDto = new AuthenticationResponseDto()
+            {
+                AuthenticationId = message.authenticationId,
+                IsAuthenticated = message.Succeeded,
+                SessionToken = message.Passtoken,
+                UserName = message.UserName,
+            };
+
+            var url = "http://" + targetDomain + PeerApiEndpoints.PeerAuthenticateRequestResponseEndpoint;
+            var body = JsonSerializer.Serialize(authenticationResponseDto);
+
+            var response = await _httpService.SendPostRequestAsync(url, body);
 
             return;
         }
