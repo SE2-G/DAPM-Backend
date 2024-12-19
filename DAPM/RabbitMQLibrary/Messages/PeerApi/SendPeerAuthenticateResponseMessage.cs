@@ -13,6 +13,7 @@ namespace RabbitMQLibrary.Messages.PeerApi.Handshake
         public Guid MessageId { get; set; }
         public Guid TicketId { get; set; }
         public Guid SenderProcessId { get; set; }
+        public Guid authenticationId { get; set; }
         public TimeSpan TimeToLive { get; set; }
 
         public IdentityDTO SenderPeerIdentity { get; set; }
