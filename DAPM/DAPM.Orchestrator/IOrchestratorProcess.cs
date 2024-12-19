@@ -1,4 +1,5 @@
-﻿using RabbitMQLibrary.Messages.Orchestrator.Other;
+﻿using RabbitMQLibrary.Messages.ClientApi;
+using RabbitMQLibrary.Messages.Orchestrator.Other;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromOperator;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromPeerApi;
 using RabbitMQLibrary.Messages.Orchestrator.ServiceResults.FromPipelineOrchestrator;
@@ -38,6 +39,8 @@ namespace DAPM.Orchestrator
         public void OnApplyRegistryUpdateResult(ApplyRegistryUpdateResult message);
         public void OnGetEntriesFromOrgResult(GetEntriesFromOrgResult message);
         public void OnRegistryUpdateAck(RegistryUpdateAckMessage message);
+        public void OnPeerAuthenticateResult(PeerAuthenticateResultMessage message);
+
 
         public void OnCreatePipelineExecutionResult(CreatePipelineExecutionResultMessage message);
         public void OnCommandEnqueued(CommandEnqueuedMessage message);

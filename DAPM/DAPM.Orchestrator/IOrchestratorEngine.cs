@@ -31,5 +31,8 @@ namespace DAPM.Orchestrator
         public void StartPipelineStartCommandProcess(Guid ticketId, Guid executionId);
         public void StartPostResourceFromPeerProcess(Guid senderProcessId, ResourceDTO resource, int storageMode, Guid executionId, IdentityDTO senderIdentity);
         public void StartGetPipelineExecutionStatusProcess(Guid ticketId, Guid executionId);
+
+        public void StartAuthenticateUserFromPeerProcess(Guid ticketId, IdentityDTO senderPeerIdentity, string userName, string passtoken);
+        public void StartAuthenticateUserFromPeerResponseProcess(Guid ticketId, IdentityDTO senderPeerIdentity, string userName, string passToken, bool isAuthenticated);
     }
 }

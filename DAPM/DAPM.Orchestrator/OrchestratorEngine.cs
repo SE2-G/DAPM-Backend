@@ -141,6 +141,22 @@ namespace DAPM.Orchestrator
             getPipelineExecutionStatusProcess.StartProcess();
         }
 
+        public void StartAuthenticateUserFromPeerProcess(Guid ticketId, IdentityDTO senderPeerIdentity, string userName, string passtoken)
+        {
+            var processId = Guid.NewGuid();
+            var collabHandshakeProcess = new PeerAuthenticationProcess(this, _serviceProvider, ticketId, processId, senderPeerIdentity, userName, passtoken);
+            _processes[processId] = collabHandshakeProcess;
+            collabHandshakeProcess.StartProcess();
+        }
+
+        public void StartAuthenticateUserFromPeerResponseProcess(Guid ticketId, IdentityDTO senderPeerIdentity, string userName, string passToken, bool isAuthenticated)
+        {
+            var processId = Guid.NewGuid();
+            var collabHandshakeProcess = new PeerAuthenticationResponseProcess(this, _serviceProvider, ticketId, processId, senderPeerIdentity, userName, passToken, isAuthenticated);
+            _processes[processId] = collabHandshakeProcess;
+            collabHandshakeProcess.StartProcess();
+        }
+
         #endregion
 
         #region PROCESSES TRIGGERED BY SYSTEM
