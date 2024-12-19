@@ -9,6 +9,7 @@ namespace DAPM.ClientApi.Services.Interfaces
         public Guid RegisterUser(RegistrationDto registerDto);
         public Guid DeleteUser(string userName);
         public Guid AddRoles(List<string> roles);
+        public Guid DeleteRoles(List<string> roles);
         public Guid EditAsAdmin(UserEditDto userEditDto);
         public Guid EditAsUser(UserEditDto userEditDto);
         public Guid GetRoles();

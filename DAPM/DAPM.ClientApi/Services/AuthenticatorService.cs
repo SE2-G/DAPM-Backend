@@ -16,6 +16,7 @@ namespace DAPM.ClientApi.Services
         private readonly IQueueProducer<RegisterUserMessage> _registerUserMessageProducer;
         private readonly IQueueProducer<LoginMessage> _loginMessageProducer;
         private readonly IQueueProducer<AddRolesMessage> _addRolesMessageProducer;
+        private readonly IQueueProducer<DeleteRolesMessage> _deleteRolesMessageProducer;
         private readonly IQueueProducer<GetRolesMessage> _getRolesMessageProducer;
         private readonly IQueueProducer<DeleteUserMessage> _deleteUserMessageProducer;
         private readonly IQueueProducer<EditAsAdminMessage> _editAsAdminMessageProducer;
@@ -30,6 +31,7 @@ namespace DAPM.ClientApi.Services
             IQueueProducer<RegisterUserMessage> registerUserMessageProducer,
             IQueueProducer<LoginMessage> loginMessageProducer,
             IQueueProducer<AddRolesMessage> addRolesMessageProducer,
+            IQueueProducer<DeleteRolesMessage> deleteRolesMessageProducer,
             IQueueProducer<GetRolesMessage> getRolesMessageProducer,
             IQueueProducer<DeleteUserMessage> deleteUserMessageProducer,
             IQueueProducer<EditAsAdminMessage> editAsAdminMessageProducer,
@@ -43,6 +45,7 @@ namespace DAPM.ClientApi.Services
             _registerUserMessageProducer = registerUserMessageProducer;
             _loginMessageProducer = loginMessageProducer;
             _addRolesMessageProducer = addRolesMessageProducer;
+            _deleteRolesMessageProducer = deleteRolesMessageProducer;
             _getRolesMessageProducer = getRolesMessageProducer;
             _deleteUserMessageProducer = deleteUserMessageProducer;
             _editAsAdminMessageProducer = editAsAdminMessageProducer;
@@ -128,6 +131,23 @@ namespace DAPM.ClientApi.Services
 
             _addRolesMessageProducer.PublishMessage(message);
             _logger.LogDebug("AddRolesMessage Enqueued");
+
+            return ticketId;
+        }
+
+        public Guid DeleteRoles(List<string> roles)
+        {
+            Guid ticketId = _ticketService.CreateNewTicket(TicketResolutionType.Json);
+
+            var message = new DeleteRolesMessage
+            {
+                TimeToLive = TimeSpan.FromMinutes(1),
+                TicketId = ticketId,
+                Roles = roles
+            };
+
+            _deleteRolesMessageProducer.PublishMessage(message);
+            _logger.LogDebug("DeleteRolesMessage Enqueued");
 
             return ticketId;
         }

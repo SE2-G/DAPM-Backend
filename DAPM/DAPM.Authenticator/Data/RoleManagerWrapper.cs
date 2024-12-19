@@ -19,6 +19,11 @@ namespace DAPM.Authenticator.Data
             return _rolemanager.CreateAsync(role);
         }
 
+        public Task<IdentityResult> DeleteAsync(Role role)
+        {
+            return _rolemanager.DeleteAsync(role);
+        }
+
         public Task<Role> FindByNameAsync(string role)
         {
             return _rolemanager.FindByNameAsync(role);

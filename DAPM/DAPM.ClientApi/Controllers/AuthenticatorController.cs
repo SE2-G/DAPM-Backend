@@ -133,6 +133,15 @@ namespace DAPM.ClientApi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpDelete("deleteRoles")]
+        public async Task<ActionResult<Guid>> DeleteRoles(List<string> roles)
+        {
+            Guid id = _authenticatorService.DeleteRoles(roles);
+
+            return Ok(new ApiResponse { RequestName = "DeleteRoles", TicketId = id });
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("setOrganization/{username}")]
         public async Task<ActionResult<Guid>> SetOrganization([FromBody] OrganisationsDto organisationsDto, string username)
         {
