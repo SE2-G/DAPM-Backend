@@ -19,6 +19,7 @@ using UtilLibrary.Services;
 using UtilLibrary.Interfaces;
 using RabbitMQLibrary.Messages.Authenticator.Base;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +72,7 @@ builder.Services.AddQueueMessageConsumer<GetRolesResultConsumer, GetRolesResultM
 builder.Services.AddQueueMessageConsumer<GetUsersResultConsumer, GetUsersResultMessage>();
 builder.Services.AddQueueMessageConsumer<SetOrganizationResultConsumer, SetOrganizationResultMessage>();
 builder.Services.AddQueueMessageConsumer<SetRolesResultConsumer, SetRolesResultMessage>();
+builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 
 builder.Services.AddQueueMessageConsumer<GetOrganizationsProcessResultConsumer, GetOrganizationsProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostItemResultConsumer, PostItemProcessResult>();
@@ -81,11 +83,6 @@ builder.Services.AddQueueMessageConsumer<GetResourceFilesProcessResultConsumer, 
 builder.Services.AddQueueMessageConsumer<CollabHandshakeProcessResultConsumer, CollabHandshakeProcessResult>();
 builder.Services.AddQueueMessageConsumer<PostPipelineCommandProcessResultConsumer, PostPipelineCommandProcessResult>();
 builder.Services.AddQueueMessageConsumer<GetPipelineExecutionStatusProcessResultConsumer, GetPipelineExecutionStatusRequestResult>();
-
-
-
-// Add services to the container.
-
 
 builder.Services.AddScoped<IResourceService, ResourceService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
@@ -98,6 +95,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IAuthenticatorService, AuthenticatorService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton(new FileLogService(Path.Combine(AppContext.BaseDirectory, "Logs", "ActivityLog.txt")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -170,6 +168,8 @@ app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ActivityLogMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.MapControllers();

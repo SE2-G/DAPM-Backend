@@ -1,10 +1,24 @@
 # Distributed Architecture for Process Mining Platform
+A part of the project for the course 02162 Software Engineering 2 created by group G, which consists of:
+* Jia Wei [s233486] ([@Jia1019](https://github.com/Jia1019))
+* Martin Handest [s224755] ([@tacecapSx](https://github.com/tacecapSx))
+* Martin Fyhring Hruby Jensen [s224753] ([@Perry02](https://github.com/Perry02))
+* Oskar William Ulrich Holland [s224768] ([@pandekagee](https://github.com/pandekagee))
+* Souar Ramzi Mohammad Ali [s191446] ([@Souar-Afrin](https://github.com/Souar-Afrin))
+* Suhail Abdi Nuur [s205135] ([@SuhailDTU](https://github.com/SuhailDTU))
+* Yuming Zhang [s232252] ([@xmuzym2017](https://github.com/xmuzym2017))
+* Yue Zhou [s232893] ([@To1and](https://github.com/To1and))
+
 This is the repository that holds the implementation of the solution proposed in the master's thesis *A Distributed Architecture for Process Mining: Deploying and Executing Process Mining Pipelines* by Sergi Doce and Hamed Tounsi at Danmarks Tekniske Universitet.
 
 This is the implementation for a DAPM Peer, which, in conjunction with other DAPM Peers, form the DAPM Platform. This platform allows users to share resources and build and execute process mining pipelines with them. 
 
 ## Microservices
-The project is developed using C# and .NET and is based on microservices. Each microservice has its own project. The following are the microservices implementing the features of DAPM:
+The project is developed using C# and .NET and is based on microservices. Each microservice has its own project.
+
+An addition of group G is the DAPM.Authenticator microservice, which implements user management and authorization.
+
+The following are the microservices implementing the features of DAPM:
 
 - DAPM.ResourceRegistryMS.Api (Resource Registry Microservice)
 - DAPM.PipelineOrchestratorMS.Api (Pipeline Orchestrator Microservice)
